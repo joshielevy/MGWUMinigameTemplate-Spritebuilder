@@ -5,6 +5,10 @@
 //  Copyright 2014 Apportable. All rights reserved.
 //
 
+// idea: flying through space, avoiding streams of stuff, popping enemies (or avoiding?), getting special items, movement is horiz back and forth, impulses proportional to dist b/t character and touch
+// use animation of jumping since from the back it looks like falling, and when turning turn to the side animation of jumping
+
+
 #import "MyMinigame.h"
 
 @implementation MyMinigame
