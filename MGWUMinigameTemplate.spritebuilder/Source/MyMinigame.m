@@ -39,6 +39,11 @@
     // delta will tell you how much time has passed since the last cycle (in seconds)
 }
 
+-(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    CGPoint touchLocation = [touch locationInNode:_contentNode];
+}
+
 -(void)endMinigame {
     // Be sure you call this method when you end your minigame!
     // Of course you won't have a random score, but your score *must* be between 1 and 100 inclusive
