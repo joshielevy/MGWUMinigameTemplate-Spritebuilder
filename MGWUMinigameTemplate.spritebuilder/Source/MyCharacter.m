@@ -15,6 +15,7 @@
     BOOL _isLanding;
     BOOL _isFlying;
     BOOL _startFlying;
+    BOOL _isRotatingToFlyingPosition;
 }
 
 -(id)init {
@@ -49,7 +50,18 @@
 
 -(void)updateAnimations:(CCTime)delta {
     // START FLYING
-    if (_startFlying) {
+    if (_isRotatingToFlyingPosition) {
+        [self resetBools];
+        _isRotatingToFlyingPosition = NO;
+        [self.animationManager setPlaybackSpeed:5.0f];
+        [self.animationManager runAnimationsForSequenceNamed:@"AnimIsoIdling"];
+    } else if ([[self.animationManager lastCompletedSequenceName] isEqualToString:@"AnimIsoIdling"] && ![[self.animationManager runningSequenceName] isEqualToString:@"AnimSideIdling"]) {
+        [self.animationManager runAnimationsForSequenceNamed:@"AnimSideIdling"];
+    } else if ([[self.animationManager lastCompletedSequenceName] isEqualToString:@"AnimSideIdling"]) {
+        [self fly];
+    }
+    else if (_startFlying) {
+        [self.animationManager setPlaybackSpeed:1.0f];
         [self resetBools];
         _isFlying = YES;
         [self.animationManager runAnimationsForSequenceNamed:@"AnimBackJump"];
@@ -107,6 +119,7 @@
     _isLanding = NO;
     _isFlying = NO;
     _startFlying = NO;
+    _isRotatingToFlyingPosition = NO;
 }
 
 // This method tells the character to jump by giving it an upward velocity.
@@ -120,5 +133,8 @@
     _startFlying = YES;
 }
 
+-(void)rotateToFlyingPosition {
+    _isRotatingToFlyingPosition = YES;
+}
 
 @end

@@ -11,5 +11,6 @@
 
 -(void)jump;
 -(void)fly;
+-(void)rotateToFlyingPosition;
 
 @end

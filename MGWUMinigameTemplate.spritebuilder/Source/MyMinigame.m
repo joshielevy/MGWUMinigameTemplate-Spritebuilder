@@ -23,9 +23,9 @@
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here
-    
-    // We're calling a public method of the character that tells it to jump!
-    [self.hero fly];
+    [self.hero setScale:0.5f];
+    // first turn him around, which will set up flying, too
+    [self.hero rotateToFlyingPosition];
 }
 
 -(void)onEnter {
