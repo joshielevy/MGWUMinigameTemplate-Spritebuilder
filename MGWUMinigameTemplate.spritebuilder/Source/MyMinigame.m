@@ -25,7 +25,7 @@
     // Set up anything connected to Sprite Builder here
     
     // We're calling a public method of the character that tells it to jump!
-    [self.hero jump];
+    [self.hero fly];
 }
 
 -(void)onEnter {

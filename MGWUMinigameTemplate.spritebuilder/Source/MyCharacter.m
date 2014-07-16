@@ -8,11 +8,13 @@
 #import "MyCharacter.h"
 
 @implementation MyCharacter {
-    float _velYPrev; // this tracks the previous velocity, it's used for animation
+    float _velYPrev, _velXPrev; // this tracks the previous velocity, it's used for animation
     BOOL _isIdling; // these BOOLs track what animations have been triggered.  By default, they're set to NO
     BOOL _isJumping;
     BOOL _isFalling;
     BOOL _isLanding;
+    BOOL _isFlying;
+    BOOL _startFlying;
 }
 
 -(id)init {
@@ -46,10 +48,22 @@
 }
 
 -(void)updateAnimations:(CCTime)delta {
+    // START FLYING
+    if (_startFlying) {
+        [self resetBools];
+        _isFlying = YES;
+        [self.animationManager runAnimationsForSequenceNamed:@"AnimBackJump"];
+    }
+    // FLYING
+    else if (_isFlying && [[self.animationManager lastCompletedSequenceName] isEqualToString:@"AnimBackJump"]) {
+        [self.animationManager runAnimationsForSequenceNamed:@"AnimBackJumping"];
+        _isFlying = NO;
+    }
+    /*
     // IDLE
     // The animation should be idle if the character was and is stationary
     // The character may only start idling if he or she was not already idling or falling
-    if (_velYPrev == 0 && self.physicsBody.velocity.y == 0 && !_isIdling && !_isFalling) {
+    else if (_velYPrev == 0 && self.physicsBody.velocity.y == 0 && !_isIdling && !_isFalling) {
         [self resetBools];
         _isIdling = YES;
         [self.animationManager runAnimationsForSequenceNamed:@"AnimIsoIdling"];
@@ -78,9 +92,10 @@
         _isLanding = YES;
         [self.animationManager runAnimationsForSequenceNamed:@"AnimIsoLand"];
     }
-    
+    */
     // We track the previous velocity, since it's important to determining how the character is and was moving for animations
     _velYPrev = self.physicsBody.velocity.y;
+    _velXPrev = self.physicsBody.velocity.x;
     
 }
 
@@ -90,6 +105,8 @@
     _isJumping = NO;
     _isFalling = NO;
     _isLanding = NO;
+    _isFlying = NO;
+    _startFlying = NO;
 }
 
 // This method tells the character to jump by giving it an upward velocity.
@@ -97,5 +114,11 @@
 -(void)jump {
     self.physicsBody.velocity = ccp(0,122);
 }
+
+// this starts the flying, which is just a jump from the back, followed by jumping
+-(void)fly {
+    _startFlying = YES;
+}
+
 
 @end
