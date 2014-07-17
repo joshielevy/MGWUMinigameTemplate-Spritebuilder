@@ -28,10 +28,11 @@
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here
-    [self.hero setScale:0.5f];
+    //[self.hero setScale:0.5f];
     // first turn him around, which will set up flying, too
     [self.hero rotateToFlyingPosition];
     lastTouchLocation = self.hero.position;
+    self.hero.physicsBody.allowsRotation = NO;
 }
 
 -(void)onEnter {
@@ -50,13 +51,12 @@
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    CGPoint touchLocation = [touch locationInWorld];
+    CGPoint touchLocation = [touch locationInNode:self];
     CGPoint heroPosition = self.hero.positionInPoints;
-    float distanceToHero = touchLocation.x-heroPosition.x;
     
-    _moveNode.position = touchLocation;
+    _moveNode.position = ccp(touchLocation.x,heroPosition.y);
     
-    _moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(0,0) anchorB:ccp(0,0) restLength:0.0f stiffness:3000.0f damping:150.0f];
+    _moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(0.0,0.0) anchorB:ccp(0,0) restLength:0.0f stiffness:3.0f damping:1.0f];
     
     
     //if (abs(distanceToHero) > 10) {
