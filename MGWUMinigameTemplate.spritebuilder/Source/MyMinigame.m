@@ -11,7 +11,9 @@
 
 #import "MyMinigame.h"
 
-@implementation MyMinigame
+@implementation MyMinigame {
+    CGPoint lastTouchLocation;
+}
 
 -(id)init {
     if ((self = [super init])) {
@@ -27,6 +29,7 @@
     [self.hero setScale:0.5f];
     // first turn him around, which will set up flying, too
     [self.hero rotateToFlyingPosition];
+    lastTouchLocation = self.hero.position;
 }
 
 -(void)onEnter {
@@ -38,17 +41,22 @@
     // Called each update cycle
     // n.b. Lag and other factors may cause it to be called more or less frequently on different devices or sessions
     // delta will tell you how much time has passed since the last cycle (in seconds)
+    float distanceToHero = lastTouchLocation.x-self.hero.positionInPoints.x;
+    self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
 }
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
     CGPoint touchLocation = [touch locationInWorld];
-    float distanceToHero = touchLocation.x-self.hero.position.x;
-    if (abs(distanceToHero) > 0) {
+    CGPoint heroPosition = self.hero.positionInPoints;
+    float distanceToHero = touchLocation.x-heroPosition.x;
+    if (abs(distanceToHero) > 10) {
         // apply impulse proportional to distance
-        [self.hero.physicsBody applyImpulse:ccp(distanceToHero, 0)];
+        //[self.hero.physicsBody applyImpulse:ccp(distanceToHero*10.0f, 0)];
+        self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     }
+    lastTouchLocation = touchLocation;
 }
 
 -(void)endMinigame {
