@@ -16,6 +16,12 @@
     BOOL _isFlying;
     BOOL _startFlying;
     BOOL _isRotatingToFlyingPosition;
+    
+    // set up 2 CCNode arrays of obstacles (left and right)
+    // we want the path of these to start tight and angle out left and right to create a sort of space road
+    // we also need random center ones to quickly dart through - like the dart, spinning buzz saw, etc.
+    // also need a particle effect for the begginning where he appears
+
 }
 
 -(id)init {
