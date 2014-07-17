@@ -10,8 +10,8 @@
 	<key>spriteFrameFiles</key>
 	<array>
 		<string>backgroundsMisc2.plist</string>
-		<string>backgroundsCubes.plist</string>
 		<string>characterAny.plist</string>
+		<string>backgroundsCubes.plist</string>
 		<string>items.plist</string>
 		<string>characters.plist</string>
 		<string>backgroundsCardboard2.plist</string>

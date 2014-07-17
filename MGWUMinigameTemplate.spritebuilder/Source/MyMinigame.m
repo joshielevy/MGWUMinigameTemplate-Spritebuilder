@@ -13,6 +13,8 @@
 
 @implementation MyMinigame {
     CGPoint lastTouchLocation;
+    CCNode *_moveNode;
+    CCPhysicsJoint *_moveJoint;
 }
 
 -(id)init {
@@ -41,8 +43,8 @@
     // Called each update cycle
     // n.b. Lag and other factors may cause it to be called more or less frequently on different devices or sessions
     // delta will tell you how much time has passed since the last cycle (in seconds)
-    float distanceToHero = lastTouchLocation.x-self.hero.positionInPoints.x;
-    self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
+    //float distanceToHero = lastTouchLocation.x-self.hero.positionInPoints.x;
+    //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
 }
 
@@ -51,11 +53,17 @@
     CGPoint touchLocation = [touch locationInWorld];
     CGPoint heroPosition = self.hero.positionInPoints;
     float distanceToHero = touchLocation.x-heroPosition.x;
-    if (abs(distanceToHero) > 10) {
+    
+    _moveNode.position = touchLocation;
+    
+    _moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(0,0) anchorB:ccp(0,0) restLength:0.0f stiffness:3000.0f damping:150.0f];
+    
+    
+    //if (abs(distanceToHero) > 10) {
         // apply impulse proportional to distance
         //[self.hero.physicsBody applyImpulse:ccp(distanceToHero*10.0f, 0)];
-        self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
-    }
+        //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
+    //}
     lastTouchLocation = touchLocation;
 }
 
