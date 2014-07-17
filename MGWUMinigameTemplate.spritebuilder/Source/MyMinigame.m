@@ -17,6 +17,7 @@
     if ((self = [super init])) {
         // Initialize any arrays, dictionaries, etc in here
         self.instructions = @"These are the game instructions :D";
+        self.userInteractionEnabled = TRUE;
     }
     return self;
 }
@@ -46,7 +47,7 @@
     float distanceToHero = touchLocation.x-self.hero.position.x;
     if (abs(distanceToHero) > 0) {
         // apply impulse proportional to distance
-        [self.hero.physicsBody applyImpulse:ccp(distanceToHero*1000, 0)];
+        [self.hero.physicsBody applyImpulse:ccp(distanceToHero, 0)];
     }
 }
 
