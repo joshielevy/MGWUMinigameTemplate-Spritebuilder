@@ -195,6 +195,95 @@
 		<string></string>
 		<key>memberVarAssignmentType</key>
 		<integer>1</integer>
+		<key>physicsBody</key>
+		<dict>
+			<key>affectedByGravity</key>
+			<false/>
+			<key>allowsRotation</key>
+			<false/>
+			<key>bodyShape</key>
+			<integer>0</integer>
+			<key>collisionCategories</key>
+			<array/>
+			<key>collisionMask</key>
+			<array/>
+			<key>collisionType</key>
+			<string></string>
+			<key>cornerRadius</key>
+			<real>0.0</real>
+			<key>density</key>
+			<real>1</real>
+			<key>dynamic</key>
+			<true/>
+			<key>elasticity</key>
+			<real>0.30000001192092896</real>
+			<key>friction</key>
+			<real>0.30000001192092896</real>
+			<key>points</key>
+			<array>
+				<array>
+					<real>-28.0625</real>
+					<real>-43.37890625</real>
+				</array>
+				<array>
+					<real>-42.94140625</real>
+					<real>-21.66796875</real>
+				</array>
+				<array>
+					<real>-12.76953125</real>
+					<real>43.21875</real>
+				</array>
+				<array>
+					<real>12.29296875</real>
+					<real>44.06640625</real>
+				</array>
+				<array>
+					<real>32.20703125</real>
+					<real>7.3203125</real>
+				</array>
+				<array>
+					<real>42.89453125</real>
+					<real>-26.54296875</real>
+				</array>
+				<array>
+					<real>27.36328125</real>
+					<real>-42.6484375</real>
+				</array>
+			</array>
+			<key>polygons</key>
+			<array>
+				<array>
+					<array>
+						<real>27.36328125</real>
+						<real>-42.6484375</real>
+					</array>
+					<array>
+						<real>42.89453125</real>
+						<real>-26.54296875</real>
+					</array>
+					<array>
+						<real>32.20703125</real>
+						<real>7.3203125</real>
+					</array>
+					<array>
+						<real>12.29296875</real>
+						<real>44.06640625</real>
+					</array>
+					<array>
+						<real>-12.76953125</real>
+						<real>43.21875</real>
+					</array>
+					<array>
+						<real>-42.94140625</real>
+						<real>-21.66796875</real>
+					</array>
+					<array>
+						<real>-28.0625</real>
+						<real>-43.37890625</real>
+					</array>
+				</array>
+			</array>
+		</dict>
 		<key>properties</key>
 		<array>
 			<dict>
@@ -239,8 +328,8 @@
 				<string>Point</string>
 				<key>value</key>
 				<array>
-					<real>0.0</real>
-					<real>0.0</real>
+					<real>0.5</real>
+					<real>0.5</real>
 				</array>
 			</dict>
 			<dict>
