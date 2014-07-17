@@ -37,11 +37,17 @@
     // Called each update cycle
     // n.b. Lag and other factors may cause it to be called more or less frequently on different devices or sessions
     // delta will tell you how much time has passed since the last cycle (in seconds)
+    self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
 }
 
--(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+-(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    CGPoint touchLocation = [touch locationInNode:_contentNode];
+    CGPoint touchLocation = [touch locationInWorld];
+    float distanceToHero = touchLocation.x-self.hero.position.x;
+    if (abs(distanceToHero) > 0) {
+        // apply impulse proportional to distance
+        [self.hero.physicsBody applyImpulse:ccp(distanceToHero*1000, 0)];
+    }
 }
 
 -(void)endMinigame {
