@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Apportable. All rights reserved.
 //
 
-#import "CCNode.h"
+#import "JoshLevySideObstacle.h"
 
-@interface JoshLevyObstacle4 : CCNode
+@interface JoshLevyObstacle4 : JoshLevySideObstacle
 
 @end

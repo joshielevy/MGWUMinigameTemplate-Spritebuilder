@@ -10,9 +10,4 @@
 
 @implementation JoshLevyObstacle3
 
--(void)didLoadFromCCB {
-    // Set up anything connected to Sprite Builder here
-    [self.animationManager runAnimationsForSequenceNamed:@"Default Timeline"];
-}
-
 @end

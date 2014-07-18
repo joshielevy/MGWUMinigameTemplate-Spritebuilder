@@ -100,22 +100,22 @@
 - (void)addObstacle {
     // randomly pick an obstacle
     int obstacleType = arc4random() % 4;
-    CCNode *obstacle;
+    JoshLevySideObstacle *obstacle;
     switch (obstacleType) {
         case 0:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
+            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle1"];
             break;
         case 1:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle2"];
+            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle2"];
             break;
         case 2:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle3"];
+            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle3"];
             break;
         case 3:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle4"];
+            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle4"];
             break;
         case 4:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle5"];
+            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle5"];
             break;
         default:
             break;

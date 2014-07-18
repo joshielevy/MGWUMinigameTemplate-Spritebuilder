@@ -1,13 +1,13 @@
 //
-//  JoshLevyObstacle4.m
+//  JoshLevySideObstacle.h
 //  MGWUMinigameTemplate
 //
 //  Created by Josh Levy on 7/17/14.
 //  Copyright (c) 2014 Apportable. All rights reserved.
 //
 
-#import "JoshLevyObstacle4.h"
+#import "CCNode.h"
 
-@implementation JoshLevyObstacle4
+@interface JoshLevySideObstacle : CCNode
 
 @end
