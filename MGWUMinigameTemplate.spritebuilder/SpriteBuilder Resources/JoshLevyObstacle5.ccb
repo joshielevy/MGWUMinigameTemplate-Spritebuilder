@@ -291,8 +291,6 @@
 				</array>
 			</dict>
 		</array>
-		<key>selected</key>
-		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
@@ -344,7 +342,7 @@
 			<key>length</key>
 			<real>4</real>
 			<key>name</key>
-			<string>Default Timeline</string>
+			<string>rotation</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>

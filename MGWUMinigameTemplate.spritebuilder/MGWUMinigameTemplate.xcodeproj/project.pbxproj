@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3EB9EBC0197878E700659B62 /* JoshLevyObstacle1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB9EBBF197878E700659B62 /* JoshLevyObstacle1.m */; };
+		3EBB245E1978A6930065E815 /* JoshLevyObstacle2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB245D1978A6930065E815 /* JoshLevyObstacle2.m */; };
+		3EBB24621978A6AB0065E815 /* JoshLevyObstacle3.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB24611978A6AB0065E815 /* JoshLevyObstacle3.m */; };
+		3EBB24651978A6BE0065E815 /* JoshLevyObstacle4.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB24641978A6BE0065E815 /* JoshLevyObstacle4.m */; };
+		3EBB24681978A6D30065E815 /* JoshLevyObstacle5.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB24671978A6D30065E815 /* JoshLevyObstacle5.m */; };
 		65400FAB19743FE200EDBBED /* MGWUMinigameInstructions.m in Sources */ = {isa = PBXBuildFile; fileRef = 65400FAA19743FE200EDBBED /* MGWUMinigameInstructions.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
@@ -64,6 +68,14 @@
 /* Begin PBXFileReference section */
 		3EB9EBBE197878E700659B62 /* JoshLevyObstacle1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoshLevyObstacle1.h; path = Source/JoshLevyObstacle1.h; sourceTree = "<group>"; };
 		3EB9EBBF197878E700659B62 /* JoshLevyObstacle1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoshLevyObstacle1.m; path = Source/JoshLevyObstacle1.m; sourceTree = "<group>"; };
+		3EBB245C1978A6930065E815 /* JoshLevyObstacle2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoshLevyObstacle2.h; path = Source/JoshLevyObstacle2.h; sourceTree = "<group>"; };
+		3EBB245D1978A6930065E815 /* JoshLevyObstacle2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoshLevyObstacle2.m; path = Source/JoshLevyObstacle2.m; sourceTree = "<group>"; };
+		3EBB24601978A6AB0065E815 /* JoshLevyObstacle3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoshLevyObstacle3.h; path = Source/JoshLevyObstacle3.h; sourceTree = "<group>"; };
+		3EBB24611978A6AB0065E815 /* JoshLevyObstacle3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoshLevyObstacle3.m; path = Source/JoshLevyObstacle3.m; sourceTree = "<group>"; };
+		3EBB24631978A6BE0065E815 /* JoshLevyObstacle4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoshLevyObstacle4.h; path = Source/JoshLevyObstacle4.h; sourceTree = "<group>"; };
+		3EBB24641978A6BE0065E815 /* JoshLevyObstacle4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoshLevyObstacle4.m; path = Source/JoshLevyObstacle4.m; sourceTree = "<group>"; };
+		3EBB24661978A6D30065E815 /* JoshLevyObstacle5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JoshLevyObstacle5.h; path = Source/JoshLevyObstacle5.h; sourceTree = "<group>"; };
+		3EBB24671978A6D30065E815 /* JoshLevyObstacle5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JoshLevyObstacle5.m; path = Source/JoshLevyObstacle5.m; sourceTree = "<group>"; };
 		65400FA919743FE200EDBBED /* MGWUMinigameInstructions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGWUMinigameInstructions.h; path = Source/MGWUMinigameInstructions.h; sourceTree = "<group>"; };
 		65400FAA19743FE200EDBBED /* MGWUMinigameInstructions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGWUMinigameInstructions.m; path = Source/MGWUMinigameInstructions.m; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
@@ -146,6 +158,14 @@
 				ED03BBDE1942561F00E23822 /* Backend */,
 				3EB9EBBE197878E700659B62 /* JoshLevyObstacle1.h */,
 				3EB9EBBF197878E700659B62 /* JoshLevyObstacle1.m */,
+				3EBB245C1978A6930065E815 /* JoshLevyObstacle2.h */,
+				3EBB245D1978A6930065E815 /* JoshLevyObstacle2.m */,
+				3EBB24601978A6AB0065E815 /* JoshLevyObstacle3.h */,
+				3EBB24611978A6AB0065E815 /* JoshLevyObstacle3.m */,
+				3EBB24631978A6BE0065E815 /* JoshLevyObstacle4.h */,
+				3EBB24641978A6BE0065E815 /* JoshLevyObstacle4.m */,
+				3EBB24661978A6D30065E815 /* JoshLevyObstacle5.h */,
+				3EBB24671978A6D30065E815 /* JoshLevyObstacle5.m */,
 				ED5FF05A19495F2F00571E13 /* MyCharacter.h */,
 				ED5FF05B19495F2F00571E13 /* MyCharacter.m */,
 				ED03BBE51942587100E23822 /* MyMinigame.h */,
@@ -367,8 +387,12 @@
 				ED03BBE71942587100E23822 /* MyMinigame.m in Sources */,
 				ED03BBE41942563A00E23822 /* MGWUTestGame.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
+				3EBB245E1978A6930065E815 /* JoshLevyObstacle2.m in Sources */,
 				ED5FF05C19495F2F00571E13 /* MyCharacter.m in Sources */,
+				3EBB24621978A6AB0065E815 /* JoshLevyObstacle3.m in Sources */,
+				3EBB24681978A6D30065E815 /* JoshLevyObstacle5.m in Sources */,
 				3EB9EBC0197878E700659B62 /* JoshLevyObstacle1.m in Sources */,
+				3EBB24651978A6BE0065E815 /* JoshLevyObstacle4.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

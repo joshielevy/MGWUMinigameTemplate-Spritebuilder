@@ -16,4 +16,6 @@
 @property (nonatomic,retain) MyCharacter *hero;
 // DO NOT DELETE!
 
+-(void) addObstacle;
+
 @end

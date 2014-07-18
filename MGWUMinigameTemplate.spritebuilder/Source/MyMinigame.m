@@ -10,11 +10,24 @@
 
 
 #import "MyMinigame.h"
+#import "JoshLevyObstacle1.h"
+#import "JoshLevyObstacle2.h"
+#import "JoshLevyObstacle3.h"
+#import "JoshLevyObstacle4.h"
+#import "JoshLevyObstacle5.h"
 
 @implementation MyMinigame {
     CGPoint lastTouchLocation;
     CCNode *_moveNode;
     CCPhysicsJoint *_moveJoint;
+    
+    NSMutableArray *_leftObstacles;
+    NSMutableArray *_rightObstacles;
+    float timeSinceObstacle;
+}
+
+-(void)initialize {
+    timeSinceObstacle = 0.0f;
 }
 
 -(id)init {
@@ -34,6 +47,9 @@
     lastTouchLocation = self.hero.position;
     self.hero.physicsBody.allowsRotation = NO;
     self.hero.physicsBody.affectedByGravity = NO;
+    
+    // set up obstacle arrays
+    
 }
 
 -(void)onEnter {
@@ -48,6 +64,19 @@
     //float distanceToHero = lastTouchLocation.x-self.hero.positionInPoints.x;
     //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
+    
+    timeSinceObstacle += delta; // delta is approximately 1/60th of a second
+    
+    // Check to see if two seconds have passed
+    if (timeSinceObstacle > 2.0f)
+    {
+        // Add a new obstacle
+        [self addObstacle];
+        
+        // Then reset the timer.
+        timeSinceObstacle = 0.0f;
+    }
+    
 }
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -66,6 +95,39 @@
         //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     //}
     lastTouchLocation = touchLocation;
+}
+
+- (void)addObstacle {
+    // randomly pick an obstacle
+    int obstacleType = arc4random() % 4;
+    CCNode *obstacle;
+    switch (obstacleType) {
+        case 0:
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
+            break;
+        case 1:
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle2"];
+            break;
+        case 2:
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle3"];
+            break;
+        case 3:
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle4"];
+            break;
+        case 4:
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle5"];
+            break;
+        default:
+            break;
+    }
+    CGPoint screenPosition = [self convertToWorldSpace:ccp(10, 400)];
+    CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
+    obstacle.position = worldPosition;
+    obstacle.physicsBody.velocity = ccp(0.0f, -10.0f);
+    //[obstacle setupRandomPosition];
+    //obstacle.zOrder = DrawingOrderPipes;
+    [self.physicsNode addChild:obstacle];
+    [_leftObstacles addObject:obstacle];
 }
 
 -(void)endMinigame {

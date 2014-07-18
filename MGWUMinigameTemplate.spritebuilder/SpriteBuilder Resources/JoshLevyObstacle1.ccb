@@ -183,8 +183,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -344,7 +342,7 @@
 			<key>length</key>
 			<real>1</real>
 			<key>name</key>
-			<string>Default Timeline</string>
+			<string>rotation</string>
 			<key>offset</key>
 			<real>0.0</real>
 			<key>position</key>
