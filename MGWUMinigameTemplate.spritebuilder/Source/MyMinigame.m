@@ -25,6 +25,8 @@
     NSMutableArray *_leftObstacles;
     NSMutableArray *_rightObstacles;
     float timeSinceObstacle;
+    
+    JoshLevyObstacleSprite1 *_testObstacle;
 }
 
 -(void)initialize {
@@ -50,7 +52,13 @@
     self.hero.physicsBody.affectedByGravity = NO;
     
     // set up obstacle arrays
-    
+    _testObstacle = (JoshLevyObstacleSprite1 *)[CCBReader load:@"JoshLevyObstacleSprite1"];
+    //_testObstacle.position = ccp(_hero.position.x-50.0f, _hero.position.y-50.0f);
+    _testObstacle.position = [_hero convertToWorldSpace:ccp(34, 138)];
+    _testObstacle.zOrder=-100;
+    _testObstacle.visible=YES;
+    [self.physicsNode addChild:_testObstacle];
+
 }
 
 -(void)onEnter {
@@ -72,7 +80,7 @@
     if (timeSinceObstacle > 2.0f)
     {
         // Add a new obstacle
-        [self addObstacleSprite];
+        //[self addObstacleSprite];
         
         // Then reset the timer.
         timeSinceObstacle = 0.0f;
