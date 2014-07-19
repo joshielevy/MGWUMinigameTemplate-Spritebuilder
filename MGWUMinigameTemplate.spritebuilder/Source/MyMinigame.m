@@ -103,30 +103,31 @@
     JoshLevySideObstacle *obstacle;
     switch (obstacleType) {
         case 0:
-            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle1"];
+            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
             break;
         case 1:
-            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle2"];
+            obstacle = (JoshLevyObstacle2 *)[CCBReader load:@"JoshLevyObstacle2"];
             break;
         case 2:
-            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle3"];
+            obstacle = (JoshLevyObstacle3 *)[CCBReader load:@"JoshLevyObstacle3"];
             break;
         case 3:
-            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle4"];
+            obstacle = (JoshLevyObstacle4 *)[CCBReader load:@"JoshLevyObstacle4"];
             break;
         case 4:
-            obstacle = (JoshLevySideObstacle *)[CCBReader load:@"JoshLevyObstacle5"];
+            obstacle = (JoshLevyObstacle5 *)[CCBReader load:@"JoshLevyObstacle5"];
             break;
         default:
             break;
     }
-    CGPoint screenPosition = [self convertToWorldSpace:ccp(10, 400)];
-    CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
-    obstacle.position = worldPosition;
-    obstacle.physicsBody.velocity = ccp(0.0f, -10.0f);
+    //CGPoint screenPosition = [self convertToWorldSpace:ccp(10, 400)];
+    //CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
+    //obstacle.position = worldPosition;
+    obstacle.position = ccp(100.0f, 100.0f);
+    //obstacle.physicsBody.velocity = ccp(0.0f, -10.0f);
     //[obstacle setupRandomPosition];
     //obstacle.zOrder = DrawingOrderPipes;
-    [self.physicsNode addChild:obstacle];
+    //[self.physicsNode addChild:obstacle];
     [_leftObstacles addObject:obstacle];
 }
 

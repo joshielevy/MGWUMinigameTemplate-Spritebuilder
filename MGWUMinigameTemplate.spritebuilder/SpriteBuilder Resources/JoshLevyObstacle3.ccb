@@ -93,11 +93,11 @@
 				<key>children</key>
 				<array/>
 				<key>customClass</key>
-				<string>JoshLevyObstacle3</string>
+				<string></string>
 				<key>displayName</key>
 				<string>item_anchor_1</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_obstacle</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -346,6 +346,8 @@
 				</array>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>

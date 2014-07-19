@@ -97,7 +97,7 @@
 				<key>displayName</key>
 				<string>axe</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_obstacle</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -188,7 +188,7 @@
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>JoshLevyObstacle2</string>
 		<key>displayName</key>
 		<string>CCNode</string>
 		<key>memberVarAssignmentName</key>
@@ -291,6 +291,8 @@
 				</array>
 			</dict>
 		</array>
+		<key>selected</key>
+		<true/>
 	</dict>
 	<key>notes</key>
 	<array/>
