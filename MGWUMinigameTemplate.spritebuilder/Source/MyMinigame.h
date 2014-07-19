@@ -17,5 +17,6 @@
 // DO NOT DELETE!
 
 -(void) addObstacle;
+-(void) addObstacleSprite;
 
 @end

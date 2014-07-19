@@ -8,7 +8,9 @@
 
 #import "JoshLevySideObstacle.h"
 
-@implementation JoshLevySideObstacle
+@implementation JoshLevySideObstacle {
+    CCNode *_obstacle;
+}
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here

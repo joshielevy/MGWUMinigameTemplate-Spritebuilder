@@ -10,6 +10,7 @@
 
 
 #import "MyMinigame.h"
+#import "JoshLevyObstacleSprite1.h"
 #import "JoshLevyObstacle1.h"
 #import "JoshLevyObstacle2.h"
 #import "JoshLevyObstacle3.h"
@@ -71,7 +72,7 @@
     if (timeSinceObstacle > 2.0f)
     {
         // Add a new obstacle
-        [self addObstacle];
+        [self addObstacleSprite];
         
         // Then reset the timer.
         timeSinceObstacle = 0.0f;
@@ -95,6 +96,15 @@
         //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     //}
     lastTouchLocation = touchLocation;
+}
+
+- (void)addObstacleSprite {
+    JoshLevyObstacleSprite1 *obstacle;
+    obstacle = (JoshLevyObstacleSprite1 *)[CCBReader load:@"JoshLevyObstacleSprite1"];
+    obstacle.position = ccp(_hero.position.x-50.0f, _hero.position.y-50.0f);
+    [self.physicsNode addChild:obstacle];
+    [_leftObstacles addObject:obstacle];
+
 }
 
 - (void)addObstacle {
