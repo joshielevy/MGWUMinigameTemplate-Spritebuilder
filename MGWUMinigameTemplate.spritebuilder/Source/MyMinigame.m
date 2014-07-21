@@ -53,9 +53,8 @@
     
     // set up obstacle arrays
     _testObstacle = (JoshLevyObstacleSprite1 *)[CCBReader load:@"JoshLevyObstacleSprite1"];
-    _testObstacle.position = ccp(_hero.position.x-50.0f, _hero.position.y-50.0f);
-    _testObstacle.visible=YES;
-    [self.physicsNode addChild:_testObstacle];
+    _testObstacle.position = ccp(99.0f, 127.0f);
+    [self addChild:_testObstacle];
 
 }
 
@@ -92,7 +91,7 @@
     CGPoint heroPosition = self.hero.positionInPoints;
     
     _moveNode.position = ccp(touchLocation.x,heroPosition.y);
-    
+    _testObstacle.position=_moveNode.position;
     _moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(0.0f,0.0f) anchorB:ccp(0.0f,0.0f) restLength:0.0f stiffness:10.0f damping:1.0f];
     
     
