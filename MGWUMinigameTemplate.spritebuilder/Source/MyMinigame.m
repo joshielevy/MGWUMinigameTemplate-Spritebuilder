@@ -18,6 +18,7 @@
 #import "JoshLevyObstacle5.h"
 
 @implementation MyMinigame {
+    CCPhysicsNode *_physicsNode;
     CGPoint lastTouchLocation;
     CCNode *_moveNode;
     CCPhysicsJoint *_moveJoint;
@@ -26,7 +27,7 @@
     NSMutableArray *_rightObstacles;
     float timeSinceObstacle;
     
-    JoshLevyObstacleSprite1 *_testObstacle;
+    JoshLevyObstacle1 *_testObstacle;
 }
 
 -(void)initialize {
@@ -52,9 +53,10 @@
     self.hero.physicsBody.affectedByGravity = NO;
     
     // set up obstacle arrays
-    _testObstacle = (JoshLevyObstacleSprite1 *)[CCBReader load:@"JoshLevyObstacleSprite1"];
+    _testObstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
+    //[self addChild:_testObstacle];
+    [_physicsNode addChild:_testObstacle];
     _testObstacle.position = ccp(99.0f, 127.0f);
-    [self addChild:_testObstacle];
 
 }
 
