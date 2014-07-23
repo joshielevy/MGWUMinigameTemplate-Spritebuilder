@@ -113,14 +113,14 @@
     CGPoint heroPosition = self.hero.positionInPoints;
     CGPoint heroWorldPosition = [_physicsNode convertToWorldSpace:heroPosition];
     CGPoint heroScreenPosition = [self convertToNodeSpace:heroWorldPosition];
-    if (lastTouchLocation.x==heroScreenPosition.x) {
+    if (fabsf(lastTouchLocation.x-(heroScreenPosition.x)) < 10.0f) {
         self.hero.physicsBody.velocity=ccp(0.0f,0.0f);
     }
 
-    NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
-    NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
-    NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
-    NSLog(@"lastTouchLocation: %f, %f",lastTouchLocation.x,lastTouchLocation.y);
+    //NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
+    //NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
+    //NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
+    //NSLog(@"lastTouchLocation: %f, %f",lastTouchLocation.x,lastTouchLocation.y);
 
 }
 
@@ -134,8 +134,7 @@
     CGPoint touchWorldPosition = [_physicsNode convertToWorldSpace:touchLocation];
     CGPoint touchScreenPosition = [self convertToNodeSpace:touchWorldPosition];
     
-    _moveNode.position = touchScreenPosition;
-    _testObstacle.position=_moveNode.position;
+    //_moveNode.position = touchScreenPosition;
     //_moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(5.0f,0.0f) anchorB:ccp(0.5f,0.0f) restLength:0.0f stiffness:10.0f damping:10.0f];
     
     //if (abs(distanceToHero) > 10) {
@@ -144,10 +143,10 @@
         //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     //}
     
-    if (heroScreenPosition.x < touchWorldPosition.x) {
-        self.hero.physicsBody.velocity=ccp(100.0f,0.0f);
-    } else if (heroScreenPosition.x > touchWorldPosition.x) {
-        self.hero.physicsBody.velocity=ccp(-100.0f,0.0f);
+    if (touchLocation.x-heroScreenPosition.x > 10.0f) {
+        self.hero.physicsBody.velocity=ccp(300.0f,0.0f);
+    } else if (heroScreenPosition.x - touchLocation.x > 10.0f) {
+        self.hero.physicsBody.velocity=ccp(-300.0f,0.0f);
     }
     
     NSLog(@"touchLocation: %f, %f",touchLocation.x,touchLocation.y);
@@ -157,7 +156,7 @@
     NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
     NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
     
-    lastTouchLocation = touchWorldPosition;
+    lastTouchLocation = touchLocation;
 }
 
 - (void)addObstacleSprite {
