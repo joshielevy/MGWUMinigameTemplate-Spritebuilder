@@ -51,13 +51,10 @@
     lastTouchLocation = self.hero.position;
     self.hero.physicsBody.allowsRotation = NO;
     self.hero.physicsBody.affectedByGravity = NO;
-    
-    // set up obstacle arrays
-    _testObstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
-    //[self addChild:_testObstacle];
-    [_physicsNode addChild:_testObstacle];
-    _testObstacle.position = ccp(99.0f, 127.0f);
+    _leftObstacles = [NSMutableArray array];
+    _rightObstacles = [NSMutableArray array];
 
+    
 }
 
 -(void)onEnter {
@@ -76,15 +73,38 @@
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
     
     // Check to see if two seconds have passed
-    if (timeSinceObstacle > 2.0f)
+    if (timeSinceObstacle > 0.2f)
     {
         // Add a new obstacle
-        //[self addObstacleSprite];
+        [self addObstacle];
         
         // Then reset the timer.
         timeSinceObstacle = 0.0f;
     }
+
+    NSMutableArray *offScreenObstacles = nil;
     
+    for (JoshLevySideObstacle *obstacle in _leftObstacles) {
+        CGPoint obstacleWorldPosition = [_physicsNode convertToWorldSpace:obstacle.position];
+        CGPoint obstacleScreenPosition = [self convertToNodeSpace:obstacleWorldPosition];
+        if (obstacleScreenPosition.y < -obstacle.contentSize.height) {
+            if (!offScreenObstacles) {
+                offScreenObstacles = [NSMutableArray array];
+            }
+            [offScreenObstacles addObject:obstacle];
+        } else {
+            // increase size and speed
+            //obstacle.scale += 0.5f* self.contentSizeInPoints.height / (self.contentSizeInPoints.height - obstacleScreenPosition.y);
+            NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
+        }
+    }
+    
+    for (CCNode *obstacleToRemove in offScreenObstacles) {
+        [obstacleToRemove removeFromParent];
+        [_leftObstacles removeObject:obstacleToRemove];
+        NSLog(@"removing obstacle");
+    }
+
 }
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -140,11 +160,12 @@
     //CGPoint screenPosition = [self convertToWorldSpace:ccp(10, 400)];
     //CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
     //obstacle.position = worldPosition;
-    obstacle.position = ccp(100.0f, 100.0f);
-    //obstacle.physicsBody.velocity = ccp(0.0f, -10.0f);
-    //[obstacle setupRandomPosition];
+    //obstacle.position = ccp(100.0f, 100.0f);
+    obstacle.position = ccp(self.contentSizeInPoints.width/3,self.contentSizeInPoints.height+obstacle.contentSizeInPoints.height*3);
     //obstacle.zOrder = DrawingOrderPipes;
-    //[self.physicsNode addChild:obstacle];
+    [_physicsNode addChild:obstacle];
+    obstacle.scale=0.5f;
+    obstacle.physicsBody.velocity=ccp(0.0f,-300.0f);
     [_leftObstacles addObject:obstacle];
 }
 

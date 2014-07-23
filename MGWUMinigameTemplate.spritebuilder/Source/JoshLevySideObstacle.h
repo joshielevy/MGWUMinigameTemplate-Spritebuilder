@@ -8,6 +8,6 @@
 
 #import "CCNode.h"
 
-@interface JoshLevySideObstacle : CCNode
+@interface JoshLevySideObstacle : CCNode 
 
 @end
