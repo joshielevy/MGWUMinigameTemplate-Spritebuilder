@@ -120,6 +120,8 @@
 {
     CGPoint touchLocation = [touch locationInNode:self];
     CGPoint heroPosition = self.hero.positionInPoints;
+    CGPoint heroWorldPosition = [_physicsNode convertToWorldSpace:heroPosition];
+    CGPoint heroScreenPosition = [self convertToNodeSpace:heroWorldPosition];
     
     CGPoint touchWorldPosition = [_physicsNode convertToWorldSpace:touchLocation];
     CGPoint touchScreenPosition = [self convertToNodeSpace:touchWorldPosition];
@@ -144,6 +146,8 @@
     NSLog(@"touchWorldPosition: %f, %f",touchWorldPosition.x,touchWorldPosition.y);
     NSLog(@"touchScreenPosition: %f, %f",touchScreenPosition.x,touchScreenPosition.y);
     NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
+    NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
+    NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
     
     lastTouchLocation = touchLocation;
 }
