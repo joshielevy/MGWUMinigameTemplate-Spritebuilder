@@ -21,6 +21,7 @@
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here
+    self.physicsBody.collisionType = @"obstacle";
 }
 
 -(void)onEnter {

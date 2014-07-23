@@ -94,7 +94,11 @@
             [offScreenObstacles addObject:obstacle];
         } else {
             // increase size and speed
-            //obstacle.scale += 0.5f* self.contentSizeInPoints.height / (self.contentSizeInPoints.height - obstacleScreenPosition.y);
+            CGFloat scaleFactor =  (self.contentSizeInPoints.height - obstacleScreenPosition.y) / self.contentSizeInPoints.height;
+            obstacle.scale = 0.5f + 0.5f * scaleFactor;
+            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor);
+            
+            
             NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
         }
     }
@@ -165,7 +169,7 @@
     //obstacle.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:obstacle];
     obstacle.scale=0.5f;
-    obstacle.physicsBody.velocity=ccp(0.0f,-300.0f);
+    obstacle.physicsBody.velocity=ccp(0.0f,-100.0f);
     [_leftObstacles addObject:obstacle];
 }
 

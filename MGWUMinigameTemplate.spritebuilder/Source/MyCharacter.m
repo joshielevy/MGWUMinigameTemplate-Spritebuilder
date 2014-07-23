@@ -39,6 +39,7 @@
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here
+    self.physicsBody.collisionType = @"character";
 }
 
 -(void)onEnter {
