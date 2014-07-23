@@ -54,6 +54,7 @@
     _leftObstacles = [NSMutableArray array];
     _rightObstacles = [NSMutableArray array];
 
+    _physicsNode.collisionDelegate = self;
     
 }
 
@@ -137,6 +138,11 @@
     [_leftObstacles addObject:obstacle];
 
 }
+
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair obstacle:(CCNode*)obstacle obstacle:(CCNode*)obstacle {
+    return FALSE;
+}
+
 
 - (void)addObstacle {
     // randomly pick an obstacle
