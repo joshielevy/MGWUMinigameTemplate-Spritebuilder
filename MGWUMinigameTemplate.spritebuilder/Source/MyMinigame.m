@@ -97,17 +97,21 @@
             // increase size and speed
             CGFloat scaleFactor =  (self.contentSizeInPoints.height - obstacleScreenPosition.y) / self.contentSizeInPoints.height;
             obstacle.scale = 0.5f + 0.5f * scaleFactor;
-            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/8,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/8);
+            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/5,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/5);
             
             
-            NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
+            //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
         }
     }
     
     for (CCNode *obstacleToRemove in offScreenObstacles) {
         [obstacleToRemove removeFromParent];
         [_leftObstacles removeObject:obstacleToRemove];
-        NSLog(@"removing obstacle");
+        //NSLog(@"removing obstacle");
+    }
+    
+    if (lastTouchLocation.x==self.hero.position.x) {
+        self.hero.physicsBody.velocity=ccp(0.0f,0.0f);
     }
 
 }
@@ -117,16 +121,30 @@
     CGPoint touchLocation = [touch locationInNode:self];
     CGPoint heroPosition = self.hero.positionInPoints;
     
-    _moveNode.position = ccp(touchLocation.x,heroPosition.y);
-    _testObstacle.position=_moveNode.position;
-    _moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(0.0f,0.0f) anchorB:ccp(0.0f,0.0f) restLength:0.0f stiffness:10.0f damping:1.0f];
+    CGPoint touchWorldPosition = [_physicsNode convertToWorldSpace:touchLocation];
+    CGPoint touchScreenPosition = [self convertToNodeSpace:touchWorldPosition];
     
+    _moveNode.position = touchScreenPosition;
+    _testObstacle.position=_moveNode.position;
+    //_moveJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_moveNode.physicsBody bodyB:self.hero.physicsBody anchorA:ccp(5.0f,0.0f) anchorB:ccp(0.5f,0.0f) restLength:0.0f stiffness:10.0f damping:10.0f];
     
     //if (abs(distanceToHero) > 10) {
         // apply impulse proportional to distance
         //[self.hero.physicsBody applyImpulse:ccp(distanceToHero*10.0f, 0)];
         //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     //}
+    
+    if (self.hero.position.x < touchScreenPosition.x) {
+        self.hero.physicsBody.velocity=ccp(100.0f,0.0f);
+    } else if (self.hero.position.x > touchScreenPosition.x) {
+        self.hero.physicsBody.velocity=ccp(-100.0f,0.0f);
+    }
+    
+    NSLog(@"touchLocation: %f, %f",touchLocation.x,touchLocation.y);
+    NSLog(@"touchWorldPosition: %f, %f",touchWorldPosition.x,touchWorldPosition.y);
+    NSLog(@"touchScreenPosition: %f, %f",touchScreenPosition.x,touchScreenPosition.y);
+    NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
+    
     lastTouchLocation = touchLocation;
 }
 
