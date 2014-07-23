@@ -110,9 +110,17 @@
         //NSLog(@"removing obstacle");
     }
     
-    if (lastTouchLocation.x==self.hero.position.x) {
+    CGPoint heroPosition = self.hero.positionInPoints;
+    CGPoint heroWorldPosition = [_physicsNode convertToWorldSpace:heroPosition];
+    CGPoint heroScreenPosition = [self convertToNodeSpace:heroWorldPosition];
+    if (lastTouchLocation.x==heroScreenPosition.x) {
         self.hero.physicsBody.velocity=ccp(0.0f,0.0f);
     }
+
+    NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
+    NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
+    NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
+    NSLog(@"lastTouchLocation: %f, %f",lastTouchLocation.x,lastTouchLocation.y);
 
 }
 
@@ -136,9 +144,9 @@
         //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     //}
     
-    if (self.hero.position.x < touchScreenPosition.x) {
+    if (heroScreenPosition.x < touchWorldPosition.x) {
         self.hero.physicsBody.velocity=ccp(100.0f,0.0f);
-    } else if (self.hero.position.x > touchScreenPosition.x) {
+    } else if (heroScreenPosition.x > touchWorldPosition.x) {
         self.hero.physicsBody.velocity=ccp(-100.0f,0.0f);
     }
     
@@ -149,7 +157,7 @@
     NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
     NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
     
-    lastTouchLocation = touchLocation;
+    lastTouchLocation = touchWorldPosition;
 }
 
 - (void)addObstacleSprite {
