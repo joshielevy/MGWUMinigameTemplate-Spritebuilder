@@ -30,10 +30,15 @@
     float startingObstacleVerticalPosition;
     
     JoshLevyObstacle1 *_testObstacle;
+    CCLabelTTF *_scoreLabel;
+    CCLabelTTF *_nameLabel;
+    
+    float timeSinceStart;
 }
 
 -(void)initialize {
     timeSinceObstacle = 0.0f;
+    timeSinceStart = 0.0f;
 }
 
 -(id)init {
@@ -75,6 +80,9 @@
     self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
     
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
+    timeSinceStart += delta;
+    
+    
     
     // Check to see if two seconds have passed
     if (timeSinceObstacle > 0.15f)
