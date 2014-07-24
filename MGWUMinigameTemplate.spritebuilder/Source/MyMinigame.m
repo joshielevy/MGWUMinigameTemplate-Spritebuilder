@@ -28,12 +28,15 @@
     float timeSinceObstacle;
     float startingObstacleScale;
     float startingObstacleVerticalPosition;
+    float waveTime;
     
     JoshLevyObstacle1 *_testObstacle;
     CCLabelTTF *_scoreLabel;
-    CCLabelTTF *_nameLabel;
+    CCLabelTTF *_timerLabel;
     
     float timeSinceStart;
+    float maxObstacleHoriz;
+    float perspectiveAngle;
 }
 
 -(void)initialize {
@@ -63,6 +66,9 @@
 
     _physicsNode.collisionDelegate = self;
     startingObstacleScale = 0.1f;
+    waveTime = 2.0f;
+    maxObstacleHoriz = 60;
+    perspectiveAngle = 20.0f;
 }
 
 -(void)onEnter {
@@ -82,7 +88,8 @@
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
     timeSinceStart += delta;
     
-    
+    _timerLabel.string = [NSString stringWithFormat:@"%.0f", 60-truncf(timeSinceStart)];
+
     
     // Check to see if two seconds have passed
     if (timeSinceObstacle > 0.15f)
@@ -118,6 +125,33 @@
     for (CCNode *obstacleToRemove in offScreenObstacles) {
         [obstacleToRemove removeFromParent];
         [_leftObstacles removeObject:obstacleToRemove];
+        //NSLog(@"removing obstacle");
+    }
+
+    [offScreenObstacles removeAllObjects];
+    
+    for (JoshLevySideObstacle *obstacle in _rightObstacles) {
+        CGPoint obstacleWorldPosition = [_physicsNode convertToWorldSpace:obstacle.position];
+        CGPoint obstacleScreenPosition = [self convertToNodeSpace:obstacleWorldPosition];
+        if (obstacleScreenPosition.y < -obstacle.contentSize.height) {
+            if (!offScreenObstacles) {
+                offScreenObstacles = [NSMutableArray array];
+            }
+            [offScreenObstacles addObject:obstacle];
+        } else {
+            // increase size and speed
+            CGFloat scaleFactor =  (startingObstacleVerticalPosition - obstacleScreenPosition.y) / startingObstacleVerticalPosition;
+            obstacle.scale = startingObstacleScale + (1.0f - startingObstacleScale) * scaleFactor;
+            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/5,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/5);
+            
+            
+            //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
+        }
+    }
+
+    for (CCNode *obstacleToRemove in offScreenObstacles) {
+        [obstacleToRemove removeFromParent];
+        [_rightObstacles removeObject:obstacleToRemove];
         //NSLog(@"removing obstacle");
     }
     
@@ -187,37 +221,56 @@
 - (void)addObstacle {
     // randomly pick an obstacle
     int obstacleType = arc4random() % 4;
-    JoshLevySideObstacle *obstacle;
+    JoshLevySideObstacle *obstacle1;
+    JoshLevySideObstacle *obstacle2;
     switch (obstacleType) {
         case 0:
-            obstacle = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
+            obstacle1 = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
+            obstacle2 = (JoshLevyObstacle1 *)[CCBReader load:@"JoshLevyObstacle1"];
             break;
         case 1:
-            obstacle = (JoshLevyObstacle2 *)[CCBReader load:@"JoshLevyObstacle2"];
+            obstacle1 = (JoshLevyObstacle2 *)[CCBReader load:@"JoshLevyObstacle2"];
+            obstacle2 = (JoshLevyObstacle2 *)[CCBReader load:@"JoshLevyObstacle2"];
             break;
         case 2:
-            obstacle = (JoshLevyObstacle3 *)[CCBReader load:@"JoshLevyObstacle3"];
+            obstacle1 = (JoshLevyObstacle3 *)[CCBReader load:@"JoshLevyObstacle3"];
+            obstacle2 = (JoshLevyObstacle3 *)[CCBReader load:@"JoshLevyObstacle3"];
             break;
         case 3:
-            obstacle = (JoshLevyObstacle4 *)[CCBReader load:@"JoshLevyObstacle4"];
+            obstacle1 = (JoshLevyObstacle4 *)[CCBReader load:@"JoshLevyObstacle4"];
+            obstacle2 = (JoshLevyObstacle4 *)[CCBReader load:@"JoshLevyObstacle4"];
             break;
         case 4:
-            obstacle = (JoshLevyObstacle5 *)[CCBReader load:@"JoshLevyObstacle5"];
+            obstacle1 = (JoshLevyObstacle5 *)[CCBReader load:@"JoshLevyObstacle5"];
+            obstacle2 = (JoshLevyObstacle5 *)[CCBReader load:@"JoshLevyObstacle5"];
             break;
         default:
             break;
     }
-    //CGPoint screenPosition = [self convertToWorldSpace:ccp(10, 400)];
-    //CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
-    //obstacle.position = worldPosition;
-    //obstacle.position = ccp(100.0f, 100.0f);
-    //obstacle.position = ccp(self.contentSizeInPoints.width/3,self.contentSizeInPoints.height+obstacle.contentSizeInPoints.height*3);
-    obstacle.position = ccp(self.contentSizeInPoints.width/3,startingObstacleVerticalPosition);
-    //obstacle.zOrder = DrawingOrderPipes;
-    [_physicsNode addChild:obstacle];
-    obstacle.scale=startingObstacleScale;
-    obstacle.physicsBody.velocity=ccp(-40.0f,-100.0f);
-    [_leftObstacles addObject:obstacle];
+
+    obstacle1.position = ccp(self.contentSizeInPoints.width/3,startingObstacleVerticalPosition);
+    obstacle2.position = ccp(self.contentSizeInPoints.width/3*2,startingObstacleVerticalPosition);
+
+    [_physicsNode addChild:obstacle1];
+    [_physicsNode addChild:obstacle2];
+    
+    obstacle1.scale=startingObstacleScale;
+    obstacle2.scale=startingObstacleScale;
+    
+    // calculate angle based on wavetime, going from -40 to +40
+    float timeSinceLastWave = fmodf(timeSinceStart, waveTime);
+    float waveScale = timeSinceLastWave/waveTime;
+    float obsXVelocity;
+    if (waveScale < 0.5f) {
+        obsXVelocity = maxObstacleHoriz * 2.0f * waveScale * 2.0f - maxObstacleHoriz;
+    } else {
+        obsXVelocity = maxObstacleHoriz * 2.0f * (1.0f-waveScale) * 2.0f - maxObstacleHoriz;
+    }
+    obstacle1.physicsBody.velocity=ccp(obsXVelocity-perspectiveAngle,-100.0f);
+    obstacle2.physicsBody.velocity=ccp(obsXVelocity+perspectiveAngle,-100.0f);
+    
+    [_leftObstacles addObject:obstacle1];
+    [_rightObstacles addObject:obstacle2];
 }
 
 -(void)endMinigame {
