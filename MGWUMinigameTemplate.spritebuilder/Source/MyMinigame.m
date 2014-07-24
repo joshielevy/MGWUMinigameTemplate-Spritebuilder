@@ -147,9 +147,9 @@
     //}
     
     if (touchLocation.x-heroScreenPosition.x > 10.0f) {
-        self.hero.physicsBody.velocity=ccp(300.0f,0.0f);
+        self.hero.physicsBody.velocity=ccp(500.0f,0.0f);
     } else if (heroScreenPosition.x - touchLocation.x > 10.0f) {
-        self.hero.physicsBody.velocity=ccp(-300.0f,0.0f);
+        self.hero.physicsBody.velocity=ccp(-500.0f,0.0f);
     }
     
     NSLog(@"touchLocation: %f, %f",touchLocation.x,touchLocation.y);
@@ -208,7 +208,7 @@
     //obstacle.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:obstacle];
     obstacle.scale=startingObstacleScale;
-    obstacle.physicsBody.velocity=ccp(0.0f,-100.0f);
+    obstacle.physicsBody.velocity=ccp(-40.0f,-100.0f);
     [_leftObstacles addObject:obstacle];
 }
 
