@@ -142,7 +142,7 @@
             // increase size and speed
             CGFloat scaleFactor =  (startingObstacleVerticalPosition - obstacleScreenPosition.y) / startingObstacleVerticalPosition;
             obstacle.scale = startingObstacleScale + (1.0f - startingObstacleScale) * scaleFactor;
-            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/5,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/5);
+            obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/4,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/4);
             
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,obstacleScreenPosition.y,obstacle.scale);
@@ -266,8 +266,8 @@
     } else {
         obsXVelocity = maxObstacleHoriz * 2.0f * (1.0f-waveScale) * 2.0f - maxObstacleHoriz;
     }
-    obstacle1.physicsBody.velocity=ccp(obsXVelocity-perspectiveAngle,-100.0f);
-    obstacle2.physicsBody.velocity=ccp(obsXVelocity+perspectiveAngle,-100.0f);
+    obstacle1.physicsBody.velocity=ccp(obsXVelocity-perspectiveAngle,-50.0f);
+    obstacle2.physicsBody.velocity=ccp(obsXVelocity+perspectiveAngle,-50.0f);
     
     [_leftObstacles addObject:obstacle1];
     [_rightObstacles addObject:obstacle2];
