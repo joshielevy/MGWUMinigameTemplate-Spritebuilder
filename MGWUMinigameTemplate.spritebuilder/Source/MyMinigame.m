@@ -26,6 +26,8 @@
     NSMutableArray *_leftObstacles;
     NSMutableArray *_rightObstacles;
     float timeSinceObstacle;
+    float startingObstacleScale;
+    float startingObstacleVerticalPosition;
     
     JoshLevyObstacle1 *_testObstacle;
 }
@@ -55,12 +57,13 @@
     _rightObstacles = [NSMutableArray array];
 
     _physicsNode.collisionDelegate = self;
-    
+    startingObstacleScale = 0.1f;
 }
 
 -(void)onEnter {
     [super onEnter];
     // Create anything you'd like to draw here
+    startingObstacleVerticalPosition = self.contentSizeInPoints.height/5*4;
 }
 
 -(void)update:(CCTime)delta {
@@ -74,7 +77,7 @@
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
     
     // Check to see if two seconds have passed
-    if (timeSinceObstacle > 0.2f)
+    if (timeSinceObstacle > 0.15f)
     {
         // Add a new obstacle
         [self addObstacle];
@@ -95,8 +98,8 @@
             [offScreenObstacles addObject:obstacle];
         } else {
             // increase size and speed
-            CGFloat scaleFactor =  (self.contentSizeInPoints.height - obstacleScreenPosition.y) / self.contentSizeInPoints.height;
-            obstacle.scale = 0.5f + 0.5f * scaleFactor;
+            CGFloat scaleFactor =  (startingObstacleVerticalPosition - obstacleScreenPosition.y) / startingObstacleVerticalPosition;
+            obstacle.scale = startingObstacleScale + (1.0f - startingObstacleScale) * scaleFactor;
             obstacle.physicsBody.velocity = ccp(obstacle.physicsBody.velocity.x+obstacle.physicsBody.velocity.x*scaleFactor/5,  obstacle.physicsBody.velocity.y+obstacle.physicsBody.velocity.y*scaleFactor/5);
             
             
@@ -200,11 +203,12 @@
     //CGPoint worldPosition = [self.physicsNode convertToNodeSpace:screenPosition];
     //obstacle.position = worldPosition;
     //obstacle.position = ccp(100.0f, 100.0f);
-    obstacle.position = ccp(self.contentSizeInPoints.width/3,self.contentSizeInPoints.height+obstacle.contentSizeInPoints.height*3);
+    //obstacle.position = ccp(self.contentSizeInPoints.width/3,self.contentSizeInPoints.height+obstacle.contentSizeInPoints.height*3);
+    obstacle.position = ccp(self.contentSizeInPoints.width/3,startingObstacleVerticalPosition);
     //obstacle.zOrder = DrawingOrderPipes;
     [_physicsNode addChild:obstacle];
-    obstacle.scale=0.5f;
-    obstacle.physicsBody.velocity=ccp(0.0f,-300.0f);
+    obstacle.scale=startingObstacleScale;
+    obstacle.physicsBody.velocity=ccp(0.0f,-100.0f);
     [_leftObstacles addObject:obstacle];
 }
 
