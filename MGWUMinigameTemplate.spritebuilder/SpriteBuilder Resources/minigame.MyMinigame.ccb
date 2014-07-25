@@ -81,7 +81,7 @@
 								<key>value</key>
 								<array>
 									<real>0.5</real>
-									<real>0.41249999403953552</real>
+									<real>0.1875</real>
 									<integer>0</integer>
 									<integer>2</integer>
 									<integer>2</integer>
@@ -109,6 +109,8 @@
 								<string>MyCharacter.ccb</string>
 							</dict>
 						</array>
+						<key>selected</key>
+						<true/>
 					</dict>
 					<dict>
 						<key>UUID</key>
@@ -726,8 +728,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
