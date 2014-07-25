@@ -25,9 +25,14 @@
     
     NSMutableArray *_leftObstacles;
     NSMutableArray *_rightObstacles;
+    NSMutableArray *_items;
     float timeSinceObstacle;
+    float timeSinceItem;
+    float itemInterval;
     float startingObstacleScale;
+    float startingItemScale;
     float startingObstacleVerticalPosition;
+    float startingItemVerticalPosition;
     float waveTime;
     
     JoshLevyObstacle1 *_testObstacle;
@@ -41,7 +46,9 @@
 
 -(void)initialize {
     timeSinceObstacle = 0.0f;
+    timeSinceItem = 0.0f;
     timeSinceStart = 0.0f;
+    itemInterval = 0.5f;
 }
 
 -(id)init {
@@ -63,9 +70,11 @@
     self.hero.physicsBody.affectedByGravity = NO;
     _leftObstacles = [NSMutableArray array];
     _rightObstacles = [NSMutableArray array];
+    _items = [NSMutableArray array];
 
     _physicsNode.collisionDelegate = self;
     startingObstacleScale = 0.1f;
+    startingItemScale = 0.3f;
     waveTime = 2.0f;
     maxObstacleHoriz = 60;
     perspectiveAngle = 20.0f;
@@ -75,6 +84,7 @@
     [super onEnter];
     // Create anything you'd like to draw here
     startingObstacleVerticalPosition = self.contentSizeInPoints.height/5*4;
+    startingItemVerticalPosition = self.contentSizeInPoints.height/5*4;
 }
 
 -(void)update:(CCTime)delta {
@@ -85,13 +95,50 @@
     //self.hero.physicsNode.gravity = ccp(distanceToHero,0.0f);
     self.hero.physicsBody.velocity = ccp(self.hero.physicsBody.velocity.x, 0.0f);
     
+    timeSinceItem += delta; // delta is approximately 1/60th of a second
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
     timeSinceStart += delta;
     
     _timerLabel.string = [NSString stringWithFormat:@"%.0f", 60-truncf(timeSinceStart)];
 
     
-    // Check to see if two seconds have passed
+    // add items at certain intervals
+    if (timeSinceItem > itemInterval)
+    {
+        // Add a new obstacle
+        [self addItem];
+        timeSinceItem = 0.0f;
+    }
+
+    NSMutableArray *offScreenItems = nil;
+    
+    for (CCSprite *item in _items) {
+        CGPoint itemWorldPosition = [_physicsNode convertToWorldSpace:item.position];
+        CGPoint itemScreenPosition = [self convertToNodeSpace:itemWorldPosition];
+        if (itemScreenPosition.y < -item.contentSize.height) {
+            if (!offScreenItems) {
+                offScreenItems = [NSMutableArray array];
+            }
+            [offScreenItems addObject:item];
+        } else {
+            // increase size and speed
+            CGFloat scaleFactor =  (startingItemVerticalPosition - itemScreenPosition.y) / startingItemVerticalPosition;
+            item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
+            item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
+            
+            
+            //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
+        }
+    }
+
+    for (CCNode *itemToRemove in offScreenItems) {
+        [itemToRemove removeFromParent];
+        [_items removeObject:itemToRemove];
+        //NSLog(@"removing item");
+    }
+    [offScreenItems removeAllObjects];
+    
+    // Check to see if need to add side obstacle
     if (timeSinceObstacle > 0.15f)
     {
         // Add a new obstacle
@@ -217,6 +264,27 @@
     return FALSE;
 }
 
+- (void)addItem {
+    //
+    CCSprite *currentItem;
+    int itemType = arc4random() % 1;
+    if (itemType==0) {
+        // good item
+        int itemType = arc4random() % 4;
+        // get string name of random texture
+        currentItem = [CCSprite spriteWithImageNamed:@"items/item_duck_2.png"];
+        // create new sprite based on above texture
+        
+        // create collision type
+        
+        
+    } else {
+        // bad item
+    }
+
+    currentItem.position=ccp(self.contentSizeInPoints.width/2, self.contentSizeInPoints.height/2);
+    [_physicsNode addChild:currentItem];
+}
 
 - (void)addObstacle {
     // randomly pick an obstacle
