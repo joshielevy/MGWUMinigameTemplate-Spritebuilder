@@ -247,9 +247,9 @@
         default:
             break;
     }
-
+    
     obstacle1.position = ccp(self.contentSizeInPoints.width/3,startingObstacleVerticalPosition);
-    obstacle2.position = ccp(self.contentSizeInPoints.width/3*2,startingObstacleVerticalPosition);
+    obstacle2.position = ccp(self.contentSizeInPoints.width/3*2.5,startingObstacleVerticalPosition);
 
     [_physicsNode addChild:obstacle1];
     [_physicsNode addChild:obstacle2];
@@ -266,8 +266,10 @@
     } else {
         obsXVelocity = maxObstacleHoriz * 2.0f * (1.0f-waveScale) * 2.0f - maxObstacleHoriz;
     }
-    obstacle1.physicsBody.velocity=ccp(obsXVelocity-perspectiveAngle,-50.0f);
-    obstacle2.physicsBody.velocity=ccp(obsXVelocity+perspectiveAngle,-50.0f);
+    //obstacle1.physicsBody.velocity=ccp(obsXVelocity-perspectiveAngle,-50.0f);
+    //obstacle2.physicsBody.velocity=ccp(obsXVelocity+perspectiveAngle,-50.0f);
+    obstacle1.physicsBody.velocity=ccp(-perspectiveAngle,-50.0f);
+    obstacle2.physicsBody.velocity=ccp(+perspectiveAngle,-50.0f);
     
     [_leftObstacles addObject:obstacle1];
     [_rightObstacles addObject:obstacle2];
