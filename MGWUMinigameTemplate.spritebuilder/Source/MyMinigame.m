@@ -78,7 +78,7 @@
     timeSinceObstacle = 0.0f;
     timeSinceItem = 0.0f;
     timeSinceStart = 0.0f;
-    itemInterval = 0.5f;
+    itemInterval = 1.0f;
 }
 
 -(void)onEnter {
@@ -348,9 +348,10 @@
     currentItem.physicsBody.type=CCPhysicsBodyTypeDynamic;
     currentItem.physicsBody.allowsRotation=FALSE;
     currentItem.scale=startingItemScale;
-    currentItem.position=ccp(self.contentSizeInPoints.width/1.5, startingItemVerticalPosition);
+    currentItem.position=ccp(self.contentSizeInPoints.width/1.7, startingItemVerticalPosition);
     // choose a random trajectory
-    currentItem.physicsBody.velocity=ccp(0,-10.0f);
+    int itemHorizTrajectory = (arc4random() % 60) - 30;
+    currentItem.physicsBody.velocity=ccp(itemHorizTrajectory,-10.0f);
     currentItem.zOrder=-1;
     [_items addObject:currentItem];
 }
