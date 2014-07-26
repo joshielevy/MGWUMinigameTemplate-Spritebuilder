@@ -125,7 +125,7 @@
             // increase size and speed
             CGFloat scaleFactor =  (startingItemVerticalPosition - itemScreenPosition.y) / startingItemVerticalPosition;
             item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
-            //item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
+            item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
             
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
@@ -267,12 +267,13 @@
 - (void)addItem {
     //
     CCSprite *currentItem;
-    int itemType = arc4random() % 1;
+    int itemType = arc4random() % 2;
     if (itemType==0) {
         // good item
         NSString *itemName;
         // get string name of random texture
-        int itemNum = arc4random() % 8;
+        int itemNum = (arc4random() % 9);
+        NSLog(@"itemNum: %d",itemNum);
         switch (itemNum) {
             case 0:
                 itemName = @"items/item_duck_2.png";
@@ -316,7 +317,7 @@
         // bad item
         NSString *itemName;
         // get string name of random texture
-        int itemNum = arc4random() % 3;
+        int itemNum = arc4random() % 4;
         switch (itemNum) {
             case 0:
                 itemName = @"items/item_saw_1.png";
@@ -350,13 +351,13 @@
     currentItem.position=ccp(self.contentSizeInPoints.width/1.5, startingItemVerticalPosition);
     // choose a random trajectory
     currentItem.physicsBody.velocity=ccp(0,-10.0f);
-    
+    currentItem.zOrder=-1;
     [_items addObject:currentItem];
 }
 
 - (void)addObstacle {
     // randomly pick an obstacle
-    int obstacleType = arc4random() % 4;
+    int obstacleType = arc4random() % 5;
     JoshLevySideObstacle *obstacle1;
     JoshLevySideObstacle *obstacle2;
     switch (obstacleType) {
