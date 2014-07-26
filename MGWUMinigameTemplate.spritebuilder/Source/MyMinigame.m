@@ -37,6 +37,8 @@
     float waveTime;
     float flashInterval;
     
+    int score;
+    
     JoshLevyObstacle1 *_testObstacle;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_timerLabel;
@@ -82,8 +84,10 @@
     timeSinceItem = 0.0f;
     timeSinceStart = 0.0f;
     itemInterval = 1.0f;
-    flashInterval = 0.25f;
+    flashInterval = 0.125f;
     timeSinceFlash = 0.0f;
+    
+    score = 0;
     
     flashToggle = true;
 }
@@ -109,7 +113,7 @@
     timeSinceFlash += delta;
     
     _timerLabel.string = [NSString stringWithFormat:@"%.0f", 60-truncf(timeSinceStart)];
-
+    _scoreLabel.string = [NSString stringWithFormat:@"%d", score];
     
     // add items at certain intervals
     if (timeSinceItem > itemInterval)
@@ -284,6 +288,24 @@
 }
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair obstacle:(CCNode*)obstacle obstacle:(CCNode*)obstacle {
+    return FALSE;
+}
+
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair obstacle:(CCNode*)obstacle character:(CCNode*)character {
+    // do a particle explosion and make character disappear
+    
+    // end game
+    [self endMinigameWithScore:score];
+    return TRUE;
+}
+
+-(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair item:(CCSprite*)item character:(CCNode*)character {
+    // do a particle thing
+    
+    // set item invisible
+    item.visible=FALSE;
+    score++;
+    
     return FALSE;
 }
 
