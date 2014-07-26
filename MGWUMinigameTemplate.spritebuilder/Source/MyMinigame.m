@@ -302,13 +302,13 @@
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair item:(CCSprite*)item character:(CCNode*)character {
     // do a particle thing
     
-    acquireItem(item);
+    [self acquireItem:item];
     score++;
     
     return FALSE;
 }
 
-- (void)acquiteItem:(CCSprite*)item {
+- (void)acquireItem:(CCSprite*)item {
     CCParticleSystem *acquire = (CCParticleSystem *)[CCBReader load:@"JoshLevyAcquireParticle"];
     // make the particle effect clean itself up, once it is completed
     acquire.autoRemoveOnFinish = TRUE;
