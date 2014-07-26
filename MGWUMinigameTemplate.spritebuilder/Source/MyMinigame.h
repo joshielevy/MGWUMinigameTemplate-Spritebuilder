@@ -19,5 +19,6 @@
 -(void) addObstacle;
 -(void) addItem;
 -(void) addObstacleSprite;
+- (void)acquiteItem:(CCSprite*)item;
 
 @end

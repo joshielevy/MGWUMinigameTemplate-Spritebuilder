@@ -302,11 +302,24 @@
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair item:(CCSprite*)item character:(CCNode*)character {
     // do a particle thing
     
-    // set item invisible
-    item.visible=FALSE;
+    acquireItem(item);
     score++;
     
     return FALSE;
+}
+
+- (void)acquiteItem:(CCSprite*)item {
+    CCParticleSystem *acquire = (CCParticleSystem *)[CCBReader load:@"JoshLevyAcquireParticle"];
+    // make the particle effect clean itself up, once it is completed
+    acquire.autoRemoveOnFinish = TRUE;
+    // place the particle effect on the seals position
+    acquire.position = item.position;
+    // add the particle effect to the same node the seal is on
+    [item.parent addChild:acquire];
+    
+    // finally, remove the destroyed seal
+    [item removeFromParent];
+
 }
 
 - (void)addItem {
