@@ -312,12 +312,11 @@
     CCParticleSystem *acquire = (CCParticleSystem *)[CCBReader load:@"JoshLevyAcquireParticle"];
     // make the particle effect clean itself up, once it is completed
     acquire.autoRemoveOnFinish = TRUE;
-    // place the particle effect on the seals position
+    // place the particle effect on the item's position
     acquire.position = item.position;
-    // add the particle effect to the same node the seal is on
+    // add the particle effect to the same node the item is on
     [item.parent addChild:acquire];
-    
-    // finally, remove the destroyed seal
+    // finally, remove the acquired item
     [item removeFromParent];
 
 }
