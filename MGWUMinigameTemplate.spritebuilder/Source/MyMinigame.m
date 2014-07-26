@@ -45,10 +45,6 @@
 }
 
 -(void)initialize {
-    timeSinceObstacle = 0.0f;
-    timeSinceItem = 0.0f;
-    timeSinceStart = 0.0f;
-    itemInterval = 0.5f;
 }
 
 -(id)init {
@@ -78,6 +74,11 @@
     waveTime = 2.0f;
     maxObstacleHoriz = 60;
     perspectiveAngle = 20.0f;
+
+    timeSinceObstacle = 0.0f;
+    timeSinceItem = 0.0f;
+    timeSinceStart = 0.0f;
+    itemInterval = 0.5f;
 }
 
 -(void)onEnter {
@@ -124,7 +125,7 @@
             // increase size and speed
             CGFloat scaleFactor =  (startingItemVerticalPosition - itemScreenPosition.y) / startingItemVerticalPosition;
             item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
-            item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
+            //item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
             
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
@@ -136,7 +137,6 @@
         [_items removeObject:itemToRemove];
         //NSLog(@"removing item");
     }
-    [offScreenItems removeAllObjects];
     
     // Check to see if need to add side obstacle
     if (timeSinceObstacle > 0.15f)
@@ -270,20 +270,88 @@
     int itemType = arc4random() % 1;
     if (itemType==0) {
         // good item
-        int itemType = arc4random() % 4;
+        NSString *itemName;
         // get string name of random texture
-        currentItem = [CCSprite spriteWithImageNamed:@"items/item_duck_2.png"];
+        int itemNum = arc4random() % 8;
+        switch (itemNum) {
+            case 0:
+                itemName = @"items/item_duck_2.png";
+                break;
+            case 1:
+                itemName = @"items/item_gem_1.png";
+                break;
+            case 2:
+                itemName = @"items/item_gem_2.png";
+                break;
+            case 3:
+                itemName = @"items/item_gem_3.png";
+                break;
+            case 4:
+                itemName = @"items/item_gem_4.png";
+                break;
+            case 5:
+                itemName = @"items/item_gem_5.png";
+                break;
+            case 6:
+                itemName = @"items/item_gem_6.png";
+                break;
+            case 7:
+                itemName = @"items/item_key_1.png";
+                break;
+            case 8:
+                itemName = @"items/item_star_1.png";
+                break;
+                
+            default:
+                break;
+        }
         // create new sprite based on above texture
+        currentItem = [CCSprite spriteWithImageNamed:itemName];
+        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSize.width/2.0f andCenter:ccp(0,0)];
         
         // create collision type
-        
+        currentItem.physicsBody.collisionType=@"item";
         
     } else {
         // bad item
+        NSString *itemName;
+        // get string name of random texture
+        int itemNum = arc4random() % 3;
+        switch (itemNum) {
+            case 0:
+                itemName = @"items/item_saw_1.png";
+                break;
+            case 1:
+                itemName = @"items/item_bomb_1.png";
+                break;
+            case 2:
+                itemName = @"enemies/kingGobi_front_1.png";
+                break;
+            case 3:
+                itemName = @"enemies/popper_front_1.png";
+                break;
+                
+            default:
+                break;
+        }
+        // create new sprite based on above texture
+        currentItem = [CCSprite spriteWithImageNamed:itemName];
+        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSize.width/2.0f andCenter:ccp(0,0)];
+        
+        // create collision type
+        currentItem.physicsBody.collisionType=@"obstacle";
     }
 
-    currentItem.position=ccp(self.contentSizeInPoints.width/2, self.contentSizeInPoints.height/2);
     [_physicsNode addChild:currentItem];
+
+    currentItem.physicsBody.type=CCPhysicsBodyTypeDynamic;
+    currentItem.physicsBody.allowsRotation=FALSE;
+    currentItem.scale=startingItemScale;
+    currentItem.position=ccp(self.contentSizeInPoints.width/1.5, startingItemVerticalPosition);
+    // choose a random trajectory
+    currentItem.physicsBody.velocity=ccp(0,-10.0f);
+    
+    [_items addObject:currentItem];
 }
 
 - (void)addObstacle {
