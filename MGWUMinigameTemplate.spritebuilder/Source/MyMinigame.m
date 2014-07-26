@@ -28,12 +28,14 @@
     NSMutableArray *_items;
     float timeSinceObstacle;
     float timeSinceItem;
+    float timeSinceFlash;
     float itemInterval;
     float startingObstacleScale;
     float startingItemScale;
     float startingObstacleVerticalPosition;
     float startingItemVerticalPosition;
     float waveTime;
+    float flashInterval;
     
     JoshLevyObstacle1 *_testObstacle;
     CCLabelTTF *_scoreLabel;
@@ -42,6 +44,7 @@
     float timeSinceStart;
     float maxObstacleHoriz;
     float perspectiveAngle;
+    bool flashToggle;
 }
 
 -(void)initialize {
@@ -79,6 +82,10 @@
     timeSinceItem = 0.0f;
     timeSinceStart = 0.0f;
     itemInterval = 1.0f;
+    flashInterval = 0.25f;
+    timeSinceFlash = 0.0f;
+    
+    flashToggle = true;
 }
 
 -(void)onEnter {
@@ -99,6 +106,7 @@
     timeSinceItem += delta; // delta is approximately 1/60th of a second
     timeSinceObstacle += delta; // delta is approximately 1/60th of a second
     timeSinceStart += delta;
+    timeSinceFlash += delta;
     
     _timerLabel.string = [NSString stringWithFormat:@"%.0f", 60-truncf(timeSinceStart)];
 
@@ -200,6 +208,21 @@
         [obstacleToRemove removeFromParent];
         [_rightObstacles removeObject:obstacleToRemove];
         //NSLog(@"removing obstacle");
+    }
+    
+    // flash items if need be
+    if (timeSinceFlash > flashInterval) {
+        for (CCSprite *item in _items) {
+            if ([item.physicsBody.collisionType isEqualToString:@"obstacle"]) {
+                if (flashToggle) {
+                    [item updateDisplayedColor:ccc4f(255, 0, 0, 1)];
+                } else {
+                    [item updateDisplayedColor:ccc4f(255, 255, 255, 1)];
+                }
+            }
+        }
+        flashToggle = !flashToggle;
+        timeSinceFlash = 0.0f;
     }
     
     CGPoint heroPosition = self.hero.positionInPoints;
