@@ -46,7 +46,9 @@
     float timeSinceStart;
     float maxObstacleHoriz;
     float perspectiveAngle;
+    
     bool flashToggle;
+    bool gameOver;
 }
 
 -(void)initialize {
@@ -90,6 +92,7 @@
     score = 0;
     
     flashToggle = true;
+    gameOver = false;
 }
 
 -(void)onEnter {
@@ -100,6 +103,11 @@
 }
 
 -(void)update:(CCTime)delta {
+    
+    if (gameOver) {
+        return;
+    }
+    
     // Called each update cycle
     // n.b. Lag and other factors may cause it to be called more or less frequently on different devices or sessions
     // delta will tell you how much time has passed since the last cycle (in seconds)
@@ -297,7 +305,7 @@
     // do a particle explosion and make character disappear
     
     // end game
-    [self endMinigameWithScore:score];
+    [self endMinigame];
     return TRUE;
 }
 
@@ -403,7 +411,7 @@
         // make the particle effect clean itself up, once it is completed
         badParticle.autoRemoveOnFinish = TRUE;
         // place the particle effect on the item's position
-        badParticle.position = currentItem.position;
+        badParticle.position = ccp(currentItem.contentSizeInPoints.width/2.0f,currentItem.contentSizeInPoints.height/2.0f);
         // add the particle effect to the same node the item is on
         [currentItem addChild:badParticle];
 
@@ -414,7 +422,7 @@
 
     [_physicsNode addChild:currentItem];
 
-    currentItem.anchorPoint = ccp(100.0f,100.0f);
+    currentItem.anchorPoint = ccp(0.5f,0.5f);
     currentItem.physicsBody.type=CCPhysicsBodyTypeDynamic;
     currentItem.physicsBody.allowsRotation=FALSE;
     currentItem.scale=startingItemScale;
@@ -486,7 +494,31 @@
 -(void)endMinigame {
     // Be sure you call this method when you end your minigame!
     // Of course you won't have a random score, but your score *must* be between 1 and 100 inclusive
-    [self endMinigameWithScore:arc4random()%100 + 1];
+    gameOver=TRUE;
+    
+    // get rid of all obstacles, items
+    for (CCNode *itemToRemove in _leftObstacles) {
+        [itemToRemove removeFromParentAndCleanup:true];
+    }
+    for (CCNode *itemToRemove in _rightObstacles) {
+        [itemToRemove removeFromParentAndCleanup:true];
+    }
+    for (CCNode *itemToRemove in _items) {
+        [itemToRemove removeFromParentAndCleanup:true];
+    }
+    
+    [_leftObstacles removeAllObjects];
+    [_rightObstacles removeAllObjects];
+    [_items removeAllObjects];
+    
+    // make the hero invisible
+    self.character.visible=false;
+    
+    // run the explosion effect
+    
+    
+    // end game
+    [self endMinigameWithScore:score];
 }
 
 // DO NOT DELETE!
