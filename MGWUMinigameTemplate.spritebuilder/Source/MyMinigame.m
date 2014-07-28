@@ -215,6 +215,7 @@
     }
     
     // flash items if need be
+    /*
     if (timeSinceFlash > flashInterval) {
         for (CCSprite *item in _items) {
             if ([item.physicsBody.collisionType isEqualToString:@"obstacle"]) {
@@ -228,7 +229,8 @@
         flashToggle = !flashToggle;
         timeSinceFlash = 0.0f;
     }
-    
+    */
+     
     CGPoint heroPosition = self.hero.positionInPoints;
     CGPoint heroWorldPosition = [_physicsNode convertToWorldSpace:heroPosition];
     CGPoint heroScreenPosition = [self convertToNodeSpace:heroWorldPosition];
@@ -396,12 +398,23 @@
         currentItem = [CCSprite spriteWithImageNamed:itemName];
         currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSize.width/2.0f andCenter:ccp(0,0)];
         
+        // add particle effect
+        CCParticleSystem *badParticle = (CCParticleSystem *)[CCBReader load:@"JoshLevyBadGuyParticle"];
+        // make the particle effect clean itself up, once it is completed
+        badParticle.autoRemoveOnFinish = TRUE;
+        // place the particle effect on the item's position
+        badParticle.position = currentItem.position;
+        // add the particle effect to the same node the item is on
+        [currentItem addChild:badParticle];
+
+        
         // create collision type
         currentItem.physicsBody.collisionType=@"obstacle";
     }
 
     [_physicsNode addChild:currentItem];
 
+    currentItem.anchorPoint = ccp(100.0f,100.0f);
     currentItem.physicsBody.type=CCPhysicsBodyTypeDynamic;
     currentItem.physicsBody.allowsRotation=FALSE;
     currentItem.scale=startingItemScale;
