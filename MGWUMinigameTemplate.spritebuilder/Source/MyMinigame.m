@@ -512,13 +512,18 @@
     [_items removeAllObjects];
     
     // make the hero invisible
-    self.character.visible=false;
+    //self.character.visible=false;
     
     // run the explosion effect
-    
+    CCParticleSystem *death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
+    // make the particle effect clean itself up, once it is completed
+    death.autoRemoveOnFinish = TRUE;
+    [self addChild:death];
+    // place the particle effect on the item's position
+    death.position = self.character.position;
     
     // end game
-    [self endMinigameWithScore:score];
+    //[self endMinigameWithScore:score];
 }
 
 // DO NOT DELETE!
