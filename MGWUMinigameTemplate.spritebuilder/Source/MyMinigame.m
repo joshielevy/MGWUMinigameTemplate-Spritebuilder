@@ -23,6 +23,7 @@
     CCNode *_moveNode;
     CCPhysicsJoint *_moveJoint;
     
+    CCParticleSystem *death;
     NSMutableArray *_leftObstacles;
     NSMutableArray *_rightObstacles;
     NSMutableArray *_items;
@@ -49,6 +50,7 @@
     
     bool flashToggle;
     bool gameOver;
+    bool isDying;
 }
 
 -(void)initialize {
@@ -93,6 +95,7 @@
     
     flashToggle = true;
     gameOver = false;
+    isDying = false;
 }
 
 -(void)onEnter {
@@ -105,7 +108,15 @@
 -(void)update:(CCTime)delta {
     
     if (gameOver) {
-        return;
+        if (isDying) {
+            if (!death.isRunningInActiveScene) {
+                isDying=false;
+            }
+            return;
+        } else {
+            // end game
+            [self endMinigameWithScore:score];
+        }
     }
     
     // Called each update cycle
@@ -512,18 +523,17 @@
     [_items removeAllObjects];
     
     // make the hero invisible
-    //self.character.visible=false;
+    self.character.visible=false;
     
     // run the explosion effect
-    CCParticleSystem *death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
+    death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
     // make the particle effect clean itself up, once it is completed
     death.autoRemoveOnFinish = TRUE;
-    [self addChild:death];
-    // place the particle effect on the item's position
-    death.position = self.character.position;
     
-    // end game
-    //[self endMinigameWithScore:score];
+    // place the particle effect on the item's position
+    death.position = self.character.positionInPoints;
+    [self addChild:death];
+    isDying=TRUE;
 }
 
 // DO NOT DELETE!
