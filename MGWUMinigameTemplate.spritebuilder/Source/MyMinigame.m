@@ -51,6 +51,7 @@
     bool flashToggle;
     bool gameOver;
     bool isDying;
+    bool goodDeath;
 }
 
 -(void)initialize {
@@ -133,6 +134,13 @@
     
     _timerLabel.string = [NSString stringWithFormat:@"%.0f", 60-truncf(timeSinceStart)];
     _scoreLabel.string = [NSString stringWithFormat:@"%d", score];
+    
+    // check for end of game
+    if (60-truncf(timeSinceStart)) {
+        // game over - good death
+        goodDeath = true;
+        gameOver = true;
+    }
     
     // add items at certain intervals
     if (timeSinceItem > itemInterval)
@@ -313,7 +321,8 @@
 }
 
 -(BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair*)pair obstacle:(CCNode*)obstacle character:(CCNode*)character {
-    // do a particle explosion and make character disappear
+    // bad death
+    goodDeath = false;
     
     // end game
     [self endMinigame];
@@ -522,18 +531,23 @@
     [_rightObstacles removeAllObjects];
     [_items removeAllObjects];
     
-    // make the hero invisible
-    self.character.visible=false;
-    
-    // run the explosion effect
-    death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
-    // make the particle effect clean itself up, once it is completed
-    death.autoRemoveOnFinish = TRUE;
-    
-    // place the particle effect on the item's position
-    death.position = self.character.positionInPoints;
-    [self addChild:death];
-    isDying=TRUE;
+
+    if (goodDeath) {
+        
+    } else {
+        // make the hero invisible
+        self.character.visible=false;
+        
+        // run the explosion effect
+        death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
+        // make the particle effect clean itself up, once it is completed
+        death.autoRemoveOnFinish = TRUE;
+        
+        // place the particle effect on the item's position
+        death.position = self.character.positionInPoints;
+        [self addChild:death];
+        isDying=TRUE;
+    }
 }
 
 // DO NOT DELETE!
