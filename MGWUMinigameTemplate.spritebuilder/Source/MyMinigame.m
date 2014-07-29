@@ -297,12 +297,14 @@
         self.hero.physicsBody.velocity=ccp(-500.0f,0.0f);
     }
     
+    /*
     NSLog(@"touchLocation: %f, %f",touchLocation.x,touchLocation.y);
     NSLog(@"touchWorldPosition: %f, %f",touchWorldPosition.x,touchWorldPosition.y);
     NSLog(@"touchScreenPosition: %f, %f",touchScreenPosition.x,touchScreenPosition.y);
     NSLog(@"hero.position: %f, %f",self.hero.position.x,self.hero.position.y);
     NSLog(@"heroWorldPosition: %f, %f",heroWorldPosition.x,heroWorldPosition.y);
     NSLog(@"heroScreenPosition: %f, %f",heroScreenPosition.x,heroScreenPosition.y);
+    */
     
     lastTouchLocation = touchLocation;
 }
