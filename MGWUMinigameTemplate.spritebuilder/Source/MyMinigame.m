@@ -68,7 +68,7 @@
 
 -(void)didLoadFromCCB {
     // Set up anything connected to Sprite Builder here
-    [self.hero setScale:0.5f];
+    [self.hero setScale:0.4f];
     // first turn him around, which will set up flying, too
     [self.hero rotateToFlyingPosition];
     lastTouchLocation = self.hero.position;
@@ -536,7 +536,7 @@
         
     } else {
         // make the hero invisible
-        self.character.visible=false;
+        self.hero.visible=false;
         
         // run the explosion effect
         death = (CCParticleSystem *)[CCBReader load:@"JoshLevyHeroDiesParticle"];
@@ -544,7 +544,7 @@
         death.autoRemoveOnFinish = TRUE;
         
         // place the particle effect on the item's position
-        death.position = self.character.positionInPoints;
+        death.position = self.hero.positionInPoints;
         [self addChild:death];
         isDying=TRUE;
     }
