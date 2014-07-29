@@ -136,7 +136,7 @@
     _scoreLabel.string = [NSString stringWithFormat:@"%d", score];
     
     // check for end of game
-    if (60-truncf(timeSinceStart)) {
+    if (60-truncf(timeSinceStart)==0) {
         // game over - good death
         goodDeath = true;
         gameOver = true;
@@ -164,7 +164,7 @@
             // increase size and speed
             CGFloat scaleFactor =  (startingItemVerticalPosition - itemScreenPosition.y) / startingItemVerticalPosition;
             item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
-            item.physicsBody.velocity = ccp(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5,  item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5);
+            item.physicsBody.velocity = ccp(clampf(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5, -500.0f, 500.0f),  clampf(item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5,-500.0f,500.0f));
             
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
