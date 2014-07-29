@@ -143,7 +143,7 @@
     }
     
     // add items at certain intervals
-    if (timeSinceItem > itemInterval)
+    if (timeSinceItem > itemInterval && [self.hero readyToPlay])
     {
         // Add a new obstacle
         [self addItem];

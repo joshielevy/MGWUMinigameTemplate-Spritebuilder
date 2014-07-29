@@ -12,5 +12,6 @@
 -(void)jump;
 -(void)fly;
 -(void)rotateToFlyingPosition;
+-(BOOL)readyToPlay;
 
 @end

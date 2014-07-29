@@ -17,6 +17,7 @@
     BOOL _startFlying;
     BOOL _isRotatingToFlyingPosition;
     
+    CCParticleSystem *begin;
     // set up 2 CCNode arrays of obstacles (left and right)
     // we want the path of these to start tight and angle out left and right to create a sort of space road
     // wher the sides are the same, just different side and angle.
@@ -59,10 +60,14 @@
 -(void)updateAnimations:(CCTime)delta {
     // START FLYING
     if (_startFlying) {
+        if (begin.isRunningInActiveScene) {
+            return;
+        }
         [self.animationManager setPlaybackSpeed:0.5f];
         [self resetBools];
         _isFlying = YES;
         [self.animationManager runAnimationsForSequenceNamed:@"AnimBackJump"];
+        self.visible=true;
     }
     // FLYING
     else if (_isFlying && [[self.animationManager lastCompletedSequenceName] isEqualToString:@"AnimBackJump"]) {
@@ -70,6 +75,14 @@
         [self.animationManager runAnimationsForSequenceNamed:@"AnimBackJumping"];
         _isFlying = NO;
     } else if (_isRotatingToFlyingPosition) {
+        begin = (CCParticleSystem *)[CCBReader load:@"JoshLevyBeginParticle"];
+        // make the particle effect clean itself up, once it is completed
+        begin.autoRemoveOnFinish = TRUE;
+        // place the particle effect on the item's position
+        begin.position = self.positionInPoints;
+        // add the particle effect to the same node the item is on
+        [self.parent addChild:begin];
+        
         [self resetBools];
         _isRotatingToFlyingPosition = NO;
         [self.animationManager setPlaybackSpeed:8.0f];
@@ -143,6 +156,15 @@
 
 -(void)rotateToFlyingPosition {
     _isRotatingToFlyingPosition = YES;
+    self.visible=false;
+}
+
+-(BOOL)readyToPlay {
+    if (begin.isRunningInActiveScene) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 @end
