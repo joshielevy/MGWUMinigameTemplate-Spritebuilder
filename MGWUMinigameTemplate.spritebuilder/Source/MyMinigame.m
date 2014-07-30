@@ -43,6 +43,7 @@
     JoshLevyObstacle1 *_testObstacle;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_timerLabel;
+    CCLabelTTF *_gameOverLabel;
     
     float timeSinceStart;
     float maxObstacleHoriz;
@@ -115,8 +116,8 @@
             }
             return;
         } else {
-            // end game
-            [self endMinigameWithScore:score];
+            _gameOverLabel.visible = true;
+            return;
         }
     }
     
@@ -140,6 +141,7 @@
         // game over - good death
         goodDeath = true;
         gameOver = true;
+        [self endMinigame];
     }
     
     // add items at certain intervals
@@ -274,6 +276,10 @@
 
 -(void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    if (gameOver && !isDying) {
+        // end game
+        [self endMinigameWithScore:score];
+    }
     CGPoint touchLocation = [touch locationInNode:self];
     CGPoint heroPosition = self.hero.positionInPoints;
     CGPoint heroWorldPosition = [_physicsNode convertToWorldSpace:heroPosition];
@@ -535,7 +541,18 @@
     
 
     if (goodDeath) {
+        // make the hero invisible
+        self.hero.visible=false;
         
+        // run the explosion effect
+        death = (CCParticleSystem *)[CCBReader load:@"JoshLevyGoodDeathParticle"];
+        // make the particle effect clean itself up, once it is completed
+        death.autoRemoveOnFinish = TRUE;
+        
+        // place the particle effect on the item's position
+        death.position = self.positionInPoints;
+        [self addChild:death];
+        isDying=TRUE;
     } else {
         // make the hero invisible
         self.hero.visible=false;
