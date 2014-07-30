@@ -165,9 +165,12 @@
         } else {
             // increase size and speed
             CGFloat scaleFactor =  (startingItemVerticalPosition - itemScreenPosition.y) / startingItemVerticalPosition;
+            scaleFactor=clampf(scaleFactor, 0, 1.0f);
             item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
+            CGPoint tempVel = item.physicsBody.velocity;
+            item.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:item.contentSizeInPoints.width/2.0f andCenter:ccp(item.contentSizeInPoints.width/2.0f,item.contentSizeInPoints.height/2.0f)];
+            item.physicsBody.velocity=tempVel;
             item.physicsBody.velocity = ccp(clampf(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5, -500.0f, 500.0f),  clampf(item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5,-500.0f,500.0f));
-            
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
         }
@@ -180,7 +183,7 @@
     }
     
     // Check to see if need to add side obstacle
-    if (timeSinceObstacle > 0.15f)
+    if (timeSinceObstacle > 0.2f)
     {
         // Add a new obstacle
         [self addObstacle];
@@ -403,7 +406,8 @@
         }
         // create new sprite based on above texture
         currentItem = [CCSprite spriteWithImageNamed:itemName];
-        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSize.width/2.0f andCenter:ccp(0,0)];
+        [currentItem setAnchorPoint:ccp(0.5f,0.5f)];
+        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSizeInPoints.width/2.0f andCenter:ccp(currentItem.contentSizeInPoints.width/2.0f,currentItem.contentSizeInPoints.height/2.0f)];
         
         // create collision type
         currentItem.physicsBody.collisionType=@"item";
@@ -432,8 +436,9 @@
         }
         // create new sprite based on above texture
         currentItem = [CCSprite spriteWithImageNamed:itemName];
-        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSize.width/2.0f andCenter:ccp(0,0)];
-        
+        [currentItem setAnchorPoint:ccp(0.5f,0.5f)];
+        currentItem.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:currentItem.contentSizeInPoints.width/2.0f andCenter:ccp(currentItem.contentSizeInPoints.width/2.0f,currentItem.contentSizeInPoints.height/2.0f)];
+
         // add particle effect
         CCParticleSystem *badParticle = (CCParticleSystem *)[CCBReader load:@"JoshLevyBadGuyParticle"];
         // make the particle effect clean itself up, once it is completed
@@ -450,11 +455,15 @@
 
     [_physicsNode addChild:currentItem];
 
-    currentItem.anchorPoint = ccp(0.5f,0.5f);
+    //currentItem.anchorPoint = ccp(0.5f,0.5f);
     currentItem.physicsBody.type=CCPhysicsBodyTypeDynamic;
     currentItem.physicsBody.allowsRotation=FALSE;
     currentItem.scale=startingItemScale;
     currentItem.position=ccp(self.contentSizeInPoints.width/1.7, startingItemVerticalPosition);
+
+    // uncomment to show extent of phys bodies
+    [currentItem.physicsNode setDebugDraw:true];
+    
     // choose a random trajectory
     int itemHorizTrajectory = (arc4random() % 60) - 30;
     currentItem.physicsBody.velocity=ccp(itemHorizTrajectory,-10.0f);

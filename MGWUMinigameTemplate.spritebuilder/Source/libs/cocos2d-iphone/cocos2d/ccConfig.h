@@ -113,7 +113,7 @@
  To enable set it to 1. Enabled by default.
  */
 #ifndef CC_NODE_RENDER_SUBPIXEL
-#define CC_NODE_RENDER_SUBPIXEL 1
+#define CC_NODE_RENDER_SUBPIXEL 0
 #endif
 
 /** @def CC_SPRITE_DEBUG_DRAW
