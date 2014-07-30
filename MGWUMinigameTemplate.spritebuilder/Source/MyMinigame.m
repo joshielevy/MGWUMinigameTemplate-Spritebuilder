@@ -61,7 +61,7 @@
 -(id)init {
     if ((self = [super init])) {
         // Initialize any arrays, dictionaries, etc in here
-        self.instructions = @"These are the game instructions :D";
+        self.instructions = @"Beware the Tunnel of Terror! Catch goodies for points, but don't hit flaming enemies! Can you last a full 60 seconds in the Tunnel of Terror?";
         self.userInteractionEnabled = TRUE;
     }
     return self;
