@@ -168,9 +168,11 @@
             scaleFactor=clampf(scaleFactor, 0, 1.0f);
             item.scale = startingItemScale + (1.0f - startingItemScale) * scaleFactor;
             CGPoint tempVel = item.physicsBody.velocity;
+            NSString *tempType = item.physicsBody.collisionType;
             item.physicsBody = [CCPhysicsBody bodyWithCircleOfRadius:item.boundingBox.size.width/2.0f andCenter:ccp(item.boundingBox.size.width/2.0f,item.boundingBox.size.height/2.0f)];
             item.physicsBody.velocity=tempVel;
             item.physicsBody.velocity = ccp(clampf(item.physicsBody.velocity.x+item.physicsBody.velocity.x*scaleFactor/5, -500.0f, 500.0f),  clampf(item.physicsBody.velocity.y+item.physicsBody.velocity.y*scaleFactor/5,-500.0f,500.0f));
+            item.physicsBody.collisionType=tempType;
             
             //NSLog(@"%f, %f, %f",self.contentSizeInPoints.height,itemScreenPosition.y,item.scale);
         }
