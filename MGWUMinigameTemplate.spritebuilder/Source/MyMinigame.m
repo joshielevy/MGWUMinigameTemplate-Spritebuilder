@@ -464,7 +464,7 @@
     currentItem.position=ccp(self.contentSizeInPoints.width/1.7, startingItemVerticalPosition);
 
     // uncomment to show extent of phys bodies
-    [currentItem.physicsNode setDebugDraw:true];
+    //[currentItem.physicsNode setDebugDraw:true];
     
     // choose a random trajectory
     int itemHorizTrajectory = (arc4random() % 60) - 30;
