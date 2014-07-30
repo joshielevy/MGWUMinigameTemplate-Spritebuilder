@@ -61,7 +61,7 @@
 -(id)init {
     if ((self = [super init])) {
         // Initialize any arrays, dictionaries, etc in here
-        self.instructions = @"Beware the Tunnel of Terror! Catch goodies for points, but don't hit flaming enemies! Can you last a full 60 seconds in the Tunnel of Terror?";
+        self.instructions = @"Beware the Tunnel of Terror! Catch goodies for points, but don't hit flaming enemies! And DON'T HIT THE SIDES! Can you last a full 60 seconds in the Tunnel of Terror?";
         self.userInteractionEnabled = TRUE;
     }
     return self;
@@ -549,8 +549,8 @@
         // make the particle effect clean itself up, once it is completed
         death.autoRemoveOnFinish = TRUE;
         
-        // place the particle effect on the item's position
-        death.position = self.positionInPoints;
+        // place the particle effect in the center
+        death.position = ccp(self.contentSizeInPoints.width,self.contentSizeInPoints.height);
         [self addChild:death];
         isDying=TRUE;
     } else {
