@@ -44,6 +44,7 @@
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_timerLabel;
     CCLabelTTF *_gameOverLabel;
+    CCLabelTTF *_youWonLabel;
     
     float timeSinceStart;
     float maxObstacleHoriz;
@@ -116,7 +117,11 @@
             }
             return;
         } else {
-            _gameOverLabel.visible = true;
+            if (goodDeath) {
+                _youWonLabel.visible = true;
+            } else {
+                _gameOverLabel.visible = true;
+            }
             return;
         }
     }
@@ -561,7 +566,7 @@
         death.autoRemoveOnFinish = TRUE;
         
         // place the particle effect in the center
-        death.position = ccp(self.contentSizeInPoints.width,self.contentSizeInPoints.height);
+        death.position = ccp(self.contentSizeInPoints.width/2.0f,self.contentSizeInPoints.height/2.0f);
         [self addChild:death];
         isDying=TRUE;
     } else {
